@@ -31,7 +31,7 @@ func Generate() error{
 		}
 	}
 
-	//todo 1. create public dir
+	// create public dir
 	if !utils.Mkdir(publicDir) {
 		return errors.New(fmt.Sprintf("create directory %s failed", publicDir))
 	}
@@ -114,16 +114,16 @@ func Generate() error{
 				}
 			}
 
-			if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day, title)) {
+			newTitle := strings.Replace(title, " ", "_", -1)
+			if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day, newTitle)) {
 				return errors.New(fmt.Sprintf("create directory %s failed",
-					path.Join(publicDir, "posts", year, month, day, title)))
+					path.Join(publicDir, "posts", year, month, day, newTitle)))
 			}
 
 			// 根据文章内容创建html文件
-			fnameNoSuffix :=strings.Split(fname, ".")[0]
-			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, title, fnameNoSuffix+".html"), htmlContent) {
+			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, newTitle, "index.html"), htmlContent) {
 				return errors.New(fmt.Sprintf("create file %s failed",
-					path.Join(publicDir,"posts", year, month, day, title, fnameNoSuffix+".html")))
+					path.Join(publicDir,"posts", year, month, day, newTitle, "index.html")))
 			}
 
 		}
