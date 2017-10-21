@@ -31,7 +31,6 @@ func Mkdir(dir string) bool {
 	} else {
 		path = "/"
 	}
-	fmt.Println(path)
 	pwd, _ := os.Getwd()  //当前的目录
 	err := os.Mkdir(pwd+path+dir, os.ModePerm)  //在当前目录下生成目录
 	if err != nil {
