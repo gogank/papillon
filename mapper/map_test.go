@@ -12,7 +12,7 @@ func TestPut(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(hash1)
-	hash2,_ := Get(key)
+	hash2 ,_ := Get(key)
 	assert.Equal(t,hash1,hash2)
 }
 
