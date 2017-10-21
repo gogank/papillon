@@ -1,0 +1,29 @@
+
+##########################################################
+#
+#                    COMMON INFO
+#
+##########################################################
+
+# Blog title
+title           = "Alice's Blog"
+# Blog description
+description     = "happy hacking, happy ganking"
+# author name
+author          = "Alice"
+
+##########################################################
+#
+#                     DIRECTORY
+#
+##########################################################
+
+[dir]
+# source directory
+source          = "./blog/source"
+
+# pulic directory
+public         = "./blog/public"
+
+
+
