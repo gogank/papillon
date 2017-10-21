@@ -134,13 +134,13 @@ func Generate(conf_path string) error{
 
 		}
 
-		// 6. 生成首页的html
-		if err := generateIndexHtml(cnf, path.Join(publicDir, "index.html")); err != nil {
+		// 6. 复制样式文件
+		if err := fileutils.CopyDirectory(path.Join(themeDir, "assets"), publicDir); err != nil {
 			return err
 		}
 
-		// 7. 复制样式文件
-		if err := fileutils.CopyDirectory(path.Join(themeDir, "assets"), publicDir); err != nil {
+		// 7. 生成首页的html
+		if err := generateIndexHtml(cnf, path.Join(publicDir, "index.html")); err != nil {
 			return err
 		}
 	}
