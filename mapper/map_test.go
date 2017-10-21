@@ -24,3 +24,7 @@ func TestWalkDir(t *testing.T) {
 		t.Log(file[i])
 	}
 }
+
+func TestWalkDirCmd(t *testing.T) {
+	WalkDirCmd("./test")
+}
