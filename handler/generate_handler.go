@@ -62,13 +62,19 @@ func Generate(conf_path string) error{
 				return err
 			}
 
-			postsTpl, err := utils.ReadFile(path.Join(themeDir, "post.hbs"))
+			//postsTpl, err := utils.ReadFile(path.Join(themeDir, "post.hbs"))
+			postsTpl, err := utils.ReadFile(path.Join(themeDir, "post2.hbs"))
 			if err != nil {
 				return err
 			}
 
 			// 调用markdown－>html方法, 得到文章信息、文章内容
-			fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, nil)
+			//fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, nil)
+			postCtx := make(map[string]interface{})
+			postCtx["blogTtile"] = cnf.GetString(utils.COMMON_TITLE)
+			postCtx["blogDesc"] = cnf.GetString(utils.COMMON_DESC)
+			postCtx["blogAuthor"] = cnf.GetString(utils.COMMON_AUTHOR)
+			fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, postCtx)
 			if err != nil {
 				return err
 			}
@@ -127,11 +133,15 @@ func Generate(conf_path string) error{
 			}
 
 			// 根据文章内容创建html文件
-			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, newTitle, "index.html"), htmlContent) {
+			newHtmlContent, err := parse.ConvertLink(htmlContent,publicDir)
+			if err != nil {
+				return err
+			}
+
+			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, newTitle, "index.html"), newHtmlContent) {
 				return errors.New(fmt.Sprintf("create file %s failed",
 					path.Join(publicDir,"posts", year, month, day, newTitle, "index.html")))
 			}
-
 		}
 
 		// 6. 复制样式文件

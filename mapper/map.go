@@ -3,7 +3,6 @@ package mapper
 import (
 	"github.com/gogank/papillon/publish"
 	"fmt"
-	"github.com/pkg/errors"
 	"github.com/gogank/papillon/utils"
 	"encoding/hex"
 	"path/filepath"
@@ -38,10 +37,10 @@ func Put(key string,dir string) (string,error) {
 	if err!= nil {
 		return "",err
 	}
-	if _,ok := linkMap[key];ok {
-		fmt.Println("This file has alreadly upload.")
-		return "",errors.New("This file has alreadly upload.")
-	}
+	//if _,ok := linkMap[key];ok {
+	//	fmt.Println("This file has alreadly upload.")
+	//	return "",errors.New("This file has alreadly upload.")
+	//}
 	linkMap[key] = hash
 	return hash,nil
 }
@@ -100,10 +99,10 @@ func WalkDirCmd(dirPth string) ([]string, error) {
 		if err!= nil {
 			return err
 		}
-		if _,ok := linkMap[key];ok {
-			fmt.Println("This file has alreadly upload.")
-			return errors.New("This file has alreadly upload.")
-		}
+		//if _,ok := linkMap[key];ok {
+		//	fmt.Println("This file has alreadly upload.")
+		//	return errors.New("This file has alreadly upload.")
+		//}
 		linkMap[key] = value
 		return nil
 	})
