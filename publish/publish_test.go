@@ -25,7 +25,7 @@ func TestPublishImpl_AddFile(t *testing.T) {
 }
 
 func TestPublishImpl_AddDir(t *testing.T) {
-	hash,err := pub.AddDir("./test/")
+	hash,err := pub.AddDir("test")
 	if err != nil {
 		t.Error(err)
 	}
@@ -34,10 +34,12 @@ func TestPublishImpl_AddDir(t *testing.T) {
 }
 
 func TestPublishImpl_AddFile2(t *testing.T) {
-	err := pub.shell.Publish("QmRHfsJ9vR44vnr3W1Eq4Ef1J4dEgaQvsXziuEU7bjpEDT","QmcPdt8s9AJRzS8Yg6aLEwwqEzzDxmitaco44Hmke2tzLJ")
+	res,err := pub.AddDirCmd("./test")
 	if err != nil {
 		t.Error(err)
 	}
-
+	assert.Nil(t,err)
+	t.Log(res)
 }
+
 

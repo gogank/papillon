@@ -225,7 +225,7 @@ func (s *Shell) AddDir(dir string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
+	fmt.Println("file")
 	sf, err := files.NewSerialFile("", dir, stat)
 	if err != nil {
 		return "", err
@@ -233,6 +233,7 @@ func (s *Shell) AddDir(dir string) (string, error) {
 	slf := files.NewSliceFile("", dir, []files.File{sf})
 	reader := files.NewMultiFileReader(slf, true)
 
+	fmt.Println()
 	req := NewRequest(context.Background(), s.url, "add")
 	req.Opts["r"] = "true"
 	req.Body = reader
