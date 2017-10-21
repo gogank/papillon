@@ -11,6 +11,8 @@ import (
 	"time"
 	"strconv"
 	"math/rand"
+	"github.com/mrunalp/fileutils"
+	"github.com/gogank/papillon/mapper"
 )
 
 func Generate(conf_path string) error{
@@ -138,9 +140,9 @@ func Generate(conf_path string) error{
 		}
 
 		// 7. 复制样式文件
-		//if err := utils.CopyDir(path.Join(themeDir, "assets"), publicDir); err != nil {
-		//	return err
-		//}
+		if err := fileutils.CopyDirectory(path.Join(themeDir, "assets"), publicDir); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -150,6 +152,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 
 	themeDir := cnf.GetString(utils.DIR_THEME)
 	postsDir := cnf.GetString(utils.DIR_POSTS)
+	publicDir := cnf.GetString(utils.DIR_PUBLIC)
 
 	indexCtx := make(map[string]interface{})
 
@@ -200,7 +203,13 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		return err
 	}
 
-	if !utils.Mkfile(indexPath, indexHtml) {
+	mapper.WalkDir(publicDir)
+	newIndexHtml, err := parse.ConvertLink(indexHtml)
+	if err != nil {
+		return err
+	}
+
+	if !utils.Mkfile(indexPath, newIndexHtml) {
 		return errors.New(fmt.Sprintf("create file %s failed", indexPath))
 	}
 
