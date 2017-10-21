@@ -6,18 +6,19 @@ import (
 )
 
 func init() {
-	RootCmd.AddCommand(generateCmd)
+	RootCmd.AddCommand(newCmd)
 
 }
 
-var generateCmd = &cobra.Command{
+var newCmd = &cobra.Command{
 	Use:   "gen",
-	Short: "Genrate a static blog website.",
+	Short: "New file in a static blog website.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 2{
+		if len(args) < 1{
 			fmt.Println("Errors:")
 			return
 		}
+
 	},
 }
