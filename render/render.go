@@ -6,8 +6,7 @@ import (
 	"bufio"
 	"fmt"
 	"io"
-	"github.com/Joker/jade"
-	"github.com/gogank/papillon/utils"
+	"github.com/aymerick/raymond"
 )
 
 type renderer struct {
@@ -17,31 +16,18 @@ func New() *renderer {
 	return &renderer{}
 }
 // Single parse the single post content, return the config map and html content bytes
-func (render *renderer) Single(raw []byte) (map[string]string, []byte, error) {
-	post_conf, raw_content,err := ReadPostConfig(raw)
-	output := blackfriday.MarkdownCommon(raw_content)
-	return post_conf, output, err
-}
-
-// DoRender apply the jade template and return rendered html content
-// html - html bytes content, generally from Single
-// template - jade template file path
-func (render *renderer) DoRender(html string,template string)(rendered_html []byte, err error){
-	tmpl_b , err := utils.ReadFile(template)
-	if err != nil{
-		return
-	}
-	tpl, err := jade.Parse("default", string(tmpl_b))
-
+func (render *renderer) DoRender(raw []byte, tpl []byte) (ctx map[string]string,result []byte, err error) {
+	ctx, raw_content,err := ReadPostConfig(raw)
+	html_content := blackfriday.MarkdownCommon(raw_content)
+	//TODO 临时方案
+	ctx["content"] = string(html_content)
+	result_s, err := raymond.Render(string(tpl), ctx)
 	if err != nil {
-	fmt.Printf("Parse error: %v", err)
-	return
+		return nil,nil,err
 	}
-
-	fmt.Printf( "Output:\n\n%s", tpl  )
+	result = []byte(result_s)
 	return
 }
-
 
 
 func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
@@ -49,7 +35,6 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 	buf := bufio.NewReaderSize(sr, 4096)
 
 	content := make([]byte,0)
-
 	postConf := make(map[string]string)
 
 	str_flag := false
@@ -64,7 +49,6 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 		if err != io.EOF && err != nil  {
 			return nil,nil,err
 		}
-		fmt.Println(string(line))
 		// 开始读取第一行
 		if !str_flag && ! end_flag {
 			line_str :=  strings.TrimSpace(string(line))
@@ -79,14 +63,13 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 			if dash_line != "---" && strings.Contains(line_str,":"){
 				tmp := strings.Split(string(line), ":")
 				key := strings.TrimSpace(tmp[0])
-				fmt.Println("key:", key)
 				value := strings.TrimSpace(tmp[1])
-				fmt.Println("value:", value)
 				postConf[key] = value
 			} else if dash_line == "---"{
 				end_flag = true
 			}
 		} else if str_flag && end_flag {
+			fmt.Println(">>>>", string(line))
 			content = append(content,line...)
 		}
 	}
