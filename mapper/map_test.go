@@ -7,7 +7,7 @@ import (
 
 func TestPut(t *testing.T) {
 	key := "./test/gogank.jpg"
-	hash1,err := Put("./test/gogank.jpg")
+	hash1,err := Put("./test/gogank.jpg","./test")
 	if err != nil{
 		t.Error(err)
 	}
@@ -18,7 +18,7 @@ func TestPut(t *testing.T) {
 
 
 func TestWalkDir(t *testing.T) {
-	file,_ := WalkDir("/Users/DeepSea/Documents/workspace/workspace_go/src/github.com/gogank/papillon/mapper/test")
+	file,_ := WalkDir("./test")
 	t.Log(len(file))
 	for i:=0;i<len(file);i++ {
 		t.Log(file[i])

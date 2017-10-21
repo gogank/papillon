@@ -27,8 +27,12 @@ func Get(key string) (string,bool) {
 	return "",true
 }
 
-func Put(key string) (string,error) {
+func Put(key string,dir string) (string,error) {
 	hash,err := publisher.AddFile(key)
+	dirPthByte := []rune(dir)
+	lenDir := len(dirPthByte)
+	filenameByte := []rune(key)
+	key = string(filenameByte[lenDir:])
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if err!= nil {
 		return "",err
@@ -58,13 +62,10 @@ func WalkDir(dirPth string) (hashs []string, err error) {
 			return nil
 		}
 		files = append(files, filename)
-		dirPthByte := []rune(dirPth)
-		lenDir := len(dirPthByte)
-		filenameByte := []rune(filename)
-		fmt.Println(string(filenameByte[lenDir:]))
-		hash,err := Put(filename)
+		hash,err := Put(filename,dirPth)
 		hashs = append(hashs,hash)
 		if err != nil{
+			fmt.Println(err)
 			return err
 		}
 		return nil
