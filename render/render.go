@@ -199,6 +199,8 @@ func parseLink(link string) string{
 	if strings.Contains(link,"?"){
 		link = strings.Split(link,"?")[0]
 	}
+	// 转换空格
+	link = strings.Replace(link," ","_",-1)
 	return link
 }
 
