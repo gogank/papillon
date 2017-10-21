@@ -6,7 +6,7 @@ import (
 )
 
 func TestNewConfig(t *testing.T) {
-	path := "./config.toml"
+	path := "./config/config.toml"
 
 	config := NewConfig(path)
 

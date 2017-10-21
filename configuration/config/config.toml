@@ -22,6 +22,9 @@ author          = "Alice"
 # source directory
 source          = "./blog/source"
 
+# source posts directory
+posts           = "./blog/source/posts"
+
 # pulic directory
 public         = "./blog/public"
 
