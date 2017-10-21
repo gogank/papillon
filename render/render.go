@@ -63,14 +63,13 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 			if dash_line != "---" && strings.Contains(line_str,":"){
 				tmp := strings.Split(string(line), ":")
 				key := strings.TrimSpace(tmp[0])
-				fmt.Println("key:", key)
 				value := strings.TrimSpace(tmp[1])
-				fmt.Println("value:", value)
 				postConf[key] = value
 			} else if dash_line == "---"{
 				end_flag = true
 			}
 		} else if str_flag && end_flag {
+			fmt.Println(">>>>", string(line))
 			content = append(content,line...)
 		}
 	}
