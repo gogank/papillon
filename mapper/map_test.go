@@ -7,7 +7,7 @@ import (
 
 func TestPut(t *testing.T) {
 	key := "./test/gogank.jpg"
-	hash1,err := Put("./test/gogank.jpg")
+	hash1,err := Put("./test/gogank.jpg","./test")
 	if err != nil{
 		t.Error(err)
 	}
@@ -18,8 +18,7 @@ func TestPut(t *testing.T) {
 
 
 func TestWalkDir(t *testing.T) {
-	file,e := WalkDir("./test")
-	assert.Nil(t,e)
+	file,_ := WalkDir("./test")
 	t.Log(len(file))
 	for i:=0;i<len(file);i++ {
 		t.Log(file[i])

@@ -35,7 +35,8 @@ func TestConvertLink(t *testing.T) {
 	_,o,e  := r.DoRender(b,tb,nil)
 	assert.Nil(t,e)
 
-	mapper.WalkDir("/Users/chenquan/Workspace/go/src/github.com/gogank/papillon/build/blog/public/assets")
+	mapper.WalkDir("../test/asserts")
+	// "style/style.css"
 	html,e := ConvertLink(o)
 	assert.Nil(t,e)
 
