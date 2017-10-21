@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-type publish interface {
+type Publish interface {
 	AddFile(filename string) (string, error)
 	AddDir(dir string) (string, error)
 }

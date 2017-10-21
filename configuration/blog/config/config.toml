@@ -5,6 +5,10 @@
 #
 ##########################################################
 
+# ipfs api url
+
+ipfs = "localhost"
+
 # Blog title
 title           = "Alice's Blog"
 # Blog description
