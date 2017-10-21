@@ -24,16 +24,16 @@ author          = "Alice"
 
 [dir]
 # source directory
-source          = "./blog/source"
+source          = "./source"
 
 # source posts directory
-posts           = "./blog/source/posts"
+posts           = "./source/posts"
 
 # pulic directory
-public         = "./blog/public"
+public         = "./public"
 
 # theme
-theme          = "./blog/theme/default"
+theme          = "./theme/default"
 
 
 

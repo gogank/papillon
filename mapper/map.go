@@ -33,6 +33,7 @@ func Put(key string,dir string) (string,error) {
 	lenDir := len(dirPthByte)
 	filenameByte := []rune(key)
 	key = string(filenameByte[lenDir:])
+	fmt.Println("put: ", key)
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if err!= nil {
 		return "",err

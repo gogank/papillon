@@ -152,7 +152,9 @@ func (render *renderer)ConvertLink(raw []byte) ([]byte, error) {
 // changeSrc 将img/script中的 src属性 进行替换
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
+		fmt.Println("%%%%%%%%%%%%%%%%%%%%%", parseLink(src))
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
+				fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
 				s.SetAttr("src", addIPFSPrefix(ipfs_link))
 		}
 	}
