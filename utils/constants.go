@@ -9,5 +9,6 @@ const (
 
 const (
 	DIR_SOURCE = "dir.source"
+	DIR_POSTS  = "dir.posts"
 	DIR_PUBLIC = "dir.public"
 )
