@@ -23,3 +23,21 @@ func Abs(filename string) string {
 	}
 	return path
 }
+
+func Mkdir(dir string) bool {
+	var path string
+	if os.IsPathSeparator('\\') {  //前边的判断是否是系统的分隔符
+		path = "\\"
+	} else {
+		path = "/"
+	}
+	fmt.Println(path)
+	pwd, _ := os.Getwd()  //当前的目录
+	err := os.Mkdir(pwd+path+dir, os.ModePerm)  //在当前目录下生成md目录
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	fmt.Println("创建目录" + path + dir)
+	return true
+}
