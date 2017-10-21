@@ -6,6 +6,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/gogank/papillon/utils"
 	"encoding/hex"
+	"path/filepath"
+	"os"
 )
 
 var linkMap map[string]string
@@ -36,4 +38,25 @@ func Put(key string) (string,error) {
 	}
 	linkMap[key] = hash
 	return hash,nil
+}
+
+func WalkDir(dirPth string) (hashs []string, err error) {
+	files := make([]string, 0, 30)
+	hashs = make([]string, 0, 30)
+	err = filepath.Walk(dirPth, func(filename string, fi os.FileInfo, err error) error { //遍历目录
+		if err != nil { //忽略错误
+			return err
+		}
+		if fi.IsDir() { // 忽略目录
+			return nil
+		}
+		files = append(files, filename)
+		hash,err := Put(filename)
+		hashs = append(hashs,hash)
+		if err != nil{
+			return err
+		}
+		return nil
+	})
+	return hashs, err
 }
