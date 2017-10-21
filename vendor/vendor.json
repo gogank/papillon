@@ -9,6 +9,12 @@
 			"revisionTime": "2016-12-30T13:27:39Z"
 		},
 		{
+			"checksumSHA1": "2wcgnEdGnKLkBnzkBEC9RmiqP4w=",
+			"path": "github.com/PuerkitoBio/goquery",
+			"revision": "3cb3b8656883c2cc3deb9c643d93ea6e5157e425",
+			"revisionTime": "2016-12-30T03:41:54Z"
+		},
+		{
 			"checksumSHA1": "LLVyR2dAgkihu0+HdZF+JK0gMMs=",
 			"path": "github.com/agl/ed25519",
 			"revision": "5312a61534124124185d41f09206b9fef1d88403",
@@ -25,6 +31,12 @@
 			"path": "github.com/agl/ed25519/extra25519",
 			"revision": "5312a61534124124185d41f09206b9fef1d88403",
 			"revisionTime": "2017-01-16T20:05:12Z"
+		},
+		{
+			"checksumSHA1": "2rWSos1D+xqNSGkvEMOG3pntod8=",
+			"path": "github.com/andybalholm/cascadia",
+			"revision": "349dd0209470eabd9514242c688c403c0926d266",
+			"revisionTime": "2016-12-24T14:14:13Z"
 		},
 		{
 			"checksumSHA1": "PZ4KJai7DnuJ2YNJ2v2l2BseB1g=",
@@ -322,6 +334,12 @@
 			"revisionTime": "2017-06-28T01:26:37Z"
 		},
 		{
+			"checksumSHA1": "ynJSWoF6v+3zMnh9R0QmmG6iGV8=",
+			"path": "github.com/pkg/errors",
+			"revision": "248dadf4e9068a0b3e79f02ed0a610d935de5302",
+			"revisionTime": "2016-10-29T09:36:37Z"
+		},
+		{
 			"checksumSHA1": "zKKp5SZ3d3ycKe4EKMNT0BqAWBw=",
 			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
 			"path": "github.com/pmezard/go-difflib/difflib",
@@ -441,6 +459,18 @@
 			"path": "golang.org/x/crypto/sha3",
 			"revision": "728b753d0135da6801d45a38e6f43ff55779c5c2",
 			"revisionTime": "2017-01-24T01:46:54Z"
+		},
+		{
+			"checksumSHA1": "/PGQlVbw8jILX3tLQaYAg6bTAFI=",
+			"path": "golang.org/x/net/html",
+			"revision": "cd69bc3fc700721b709c3a59e16e24c67b58f6ff",
+			"revisionTime": "2017-10-17T20:25:22Z"
+		},
+		{
+			"checksumSHA1": "iWvOOLdDxvI4AVX6px6/HYBPeaQ=",
+			"path": "golang.org/x/net/html/atom",
+			"revision": "cd69bc3fc700721b709c3a59e16e24c67b58f6ff",
+			"revisionTime": "2017-10-17T20:25:22Z"
 		},
 		{
 			"checksumSHA1": "uTQtOqR0ePMMcvuvAIksiIZxhqU=",
