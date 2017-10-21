@@ -12,13 +12,14 @@ func TestPut(t *testing.T) {
 		t.Error(err)
 	}
 	t.Log(hash1)
-	hash2 := Get(key)
+	hash2 ,_ := Get(key)
 	assert.Equal(t,hash1,hash2)
 }
 
 
 func TestWalkDir(t *testing.T) {
-	file,_ := WalkDir("./test")
+	file,e := WalkDir("./test")
+	assert.Nil(t,e)
 	t.Log(len(file))
 	for i:=0;i<len(file);i++ {
 		t.Log(file[i])

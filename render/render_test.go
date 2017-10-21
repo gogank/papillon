@@ -4,6 +4,7 @@ import (
 	"testing"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
+	"github.com/gogank/papillon/mapper"
 )
 
 var TestPostPath = "../test/single.md"
@@ -23,7 +24,7 @@ func TestRenderer_DoRender(t *testing.T) {
 
 }
 
-func TestFilterLink(t *testing.T) {
+func TestConvertLink(t *testing.T) {
 	r := &renderer{}
 	b,e := ioutil.ReadFile(TestPostPath)
 	assert.Nil(t,e)
@@ -33,10 +34,15 @@ func TestFilterLink(t *testing.T) {
 
 	_,o,e  := r.DoRender(b,tb,nil)
 	assert.Nil(t,e)
-	//t.Log(string(o))
 
-	ConvertLink(o)
+	mapper.WalkDir("/Users/chenquan/Workspace/go/src/github.com/gogank/papillon/build/blog/public/assets")
+	html,e := ConvertLink(o)
+	assert.Nil(t,e)
+
+	t.Log(string(html))
+
 }
+
 
 func TestIsInternal(t *testing.T) {
 	assert.False(t,isInternal("http://www.papillon.io"))
@@ -58,3 +64,4 @@ func TestIsSlashEnd(t *testing.T){
 	link := "www.papillon.com/"
 	assert.True(t,isSlashEnd(link))
 }
+

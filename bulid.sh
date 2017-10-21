@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!bash
 PROJECT_PATH="${GOPATH}/src/github.com/gogank/papillon"
 # output root dir
 DUMP_PATH="${PROJECT_PATH}/build"

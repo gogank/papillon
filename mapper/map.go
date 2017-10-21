@@ -21,9 +21,9 @@ func init(){
 func Get(key string) (string,bool) {
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if hash,ok := linkMap[key];ok {
-		return hash,false
+		return hash,true
 	}
-	return "",true
+	return "",false
 }
 
 func Put(key string) (string,error) {
@@ -48,9 +48,11 @@ func WalkDir(dirPth string) (hashs []string, err error) {
 			return err
 		}
 		if fi.IsDir() { // 忽略目录
+
 			return nil
 		}
 		files = append(files, filename)
+		fmt.Println("$$$$&&&" , filename)
 		hash,err := Put(filename)
 		hashs = append(hashs,hash)
 		if err != nil{

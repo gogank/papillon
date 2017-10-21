@@ -106,39 +106,47 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 	return postConf, content, nil
 }
 
-func GetMeta(raw []byte)(map[string]string,error){
-	meta , _ , err := readPostConfig(raw)
-	return meta,err
+func GetMeta(raw []byte) (map[string]string, error) {
+	meta, _, err := readPostConfig(raw)
+	return meta, err
 }
 
-// Convert hte link as `public` folder  as root
+// Convert the link as `public` folder  as root
 func ConvertLink(raw []byte) ([]byte, error) {
 	sr := strings.NewReader(string(raw))
 	doc, err := goquery.NewDocumentFromReader(sr)
 	if err != nil {
 		return nil, err
 	}
-	doc.Find("link").Each(changeLink)
-	doc.Find("a").Each(changeLink)
-	doc.Find("script").Each(changeSrc)
-	doc.Find("img").Each(changeSrc)
-
+	tagList := map[string]func(int, *goquery.Selection){}
+	tagList["link"] = changeLink
+	tagList["a"] = changeLink
+	tagList["script"] = changeSrc
+	tagList["img"] = changeSrc
+	for k,v := range tagList{
+		doc.Find(k).Each(v)
+	}
 	html, err := doc.Html()
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(html)
-	return nil, nil
+	return []byte(html), nil
 }
 
 // changeSrc change TAG's `src` attr
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
-		fmt.Println(src)
-		if ipfs_link, ok := mapper.Get(src); ok {
-			s.SetAttr("src", ipfs_link+"OOOOO")
+		if isInternal(src) {
+			if isSlashEnd(src) {
+				src = src + "index.html"
+			}
+			fmt.Println("BBBBBBBBB>>>" + src)
+			if ipfs_link, ok := mapper.Get(src); ok {
+				s.SetAttr("src", ipfs_link +"BBBBBB")
+			}
 		}
+
 	}
 }
 
@@ -147,28 +155,29 @@ func changeLink(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("link"); ok && isInternal(src) {
 		fmt.Println(src)
 		// 如果是内部链接，进行处理
-		if isInternal(src){
-			if isSlashEnd(src){
-				src = src +"index.html"
+		if isInternal(src) {
+			if isSlashEnd(src) {
+				src = src + "index.html"
+			}
+			if ipfs_link, ok := mapper.Get(src); ok {
+				s.SetAttr("link", ipfs_link + "AAAAAAA")
 			}
 		}
-		if ipfs_link, ok := mapper.Get(src); ok {
-			s.SetAttr("link", ipfs_link+"AAAASS")
-		}
+
 	}
 }
 
 func isInternal(link string) bool {
 	reg, err := regexp.Compile("(?i:^http).*")
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
-	if reg.MatchString(link){
+	if reg.MatchString(link) {
 		return false
 	}
 	return true
 }
 
-func isSlashEnd(link string) bool{
-	return strings.HasSuffix(link,"/")
+func isSlashEnd(link string) bool {
+	return strings.HasSuffix(link, "/")
 }
