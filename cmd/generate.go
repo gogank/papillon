@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"fmt"
+	"github.com/gogank/papillon/handler"
 )
 
 func init() {
@@ -23,5 +24,6 @@ var generateCmd = &cobra.Command{
 		}
 		//TODO  specific logic
 		fmt.Println("Call Generate cmd!")
+		handler.Generate()
 	},
 }
