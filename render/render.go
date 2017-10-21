@@ -158,7 +158,7 @@ func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error
 // changeSrc 将img/script中的 src属性 进行替换
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
-		fmt.Println("%%%%%%%%%%%%%%%%%%%%%", parseLink(src))
+		fmt.Println("--->", addIPFSPrefix(parseLink(src)))
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
 				fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
 				s.SetAttr("src", addIPFSPrefix(ipfs_link))
@@ -168,10 +168,10 @@ func changeSrc(i int, s *goquery.Selection) {
 
 // changeHref 将 link/a 中的 link href 属性进行替换
 func changeHref(i int, s *goquery.Selection) {
-	if src, ok := s.Attr("link"); ok && isInternal(src) {
+	if src, ok := s.Attr("href"); ok && isInternal(src) {
 		// 如果是内部链接，进行处理
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-				s.SetAttr("link", addIPFSPrefix(ipfs_link))
+				s.SetAttr("href", addIPFSPrefix(ipfs_link))
 		}
 	}
 }
