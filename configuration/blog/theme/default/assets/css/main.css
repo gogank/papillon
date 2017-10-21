@@ -2185,9 +2185,6 @@ article {
     transition: 300ms;
 }
 
-article:hover {
-    cursor: pointer;
-    /*box-shadow: 1px 1px 5px silver;*/
-    background-color: rgba(210,210,210,.3);
-
+.use-motion .post {
+    opacity: 1 !important;
 }

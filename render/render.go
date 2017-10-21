@@ -129,7 +129,7 @@ func GetMeta(raw []byte) (map[string]string, error) {
 // 2. 如果不能在ipfs网络中找到，则不处理
 func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error) {
 	// upload files
-	_,err := mapper.WalkDir(parent_dir)
+	_,err := mapper.WalkDirCmd(parent_dir)
 	if err != nil{
 		return nil,err
 	}
