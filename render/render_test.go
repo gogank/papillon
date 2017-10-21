@@ -4,7 +4,6 @@ import (
 	"testing"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"regexp"
 )
 
 var TestPostPath = "../test/single.md"
@@ -40,18 +39,22 @@ func TestFilterLink(t *testing.T) {
 }
 
 func TestIsInternal(t *testing.T) {
-	assert.False(t,IsInternal("http://www.papillon.io"))
-	assert.True(t,IsInternal("./internal.css"))
+	assert.False(t,isInternal("http://www.papillon.io"))
+	assert.True(t,isInternal("./internal.css"))
 }
 
 func TestIsInternal2(t *testing.T) {
-	link := "http://www.baidu.com"
-	b,e := regexp.MatchString("https?://\\S+",link)
-	assert.Nil(t,e)
-	assert.True(t,b)
+	links := make(map[string]bool)
+	links["http://www.papillon.io"] = false
+	links["style.css"] = true
 
-	link = "./css/style.css"
-	b,e = regexp.MatchString("^[http|https]://*.?$",link)
-	assert.Nil(t,e)
-	assert.True(t,b)
+	for k,v	 := range links{
+		t.Log(k)
+		assert.Equal(t,isInternal(k),v)
+	}
+}
+
+func TestIsSlashEnd(t *testing.T){
+	link := "www.papillon.com/"
+	assert.True(t,isSlashEnd(link))
 }
