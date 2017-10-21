@@ -19,6 +19,7 @@ func Generate() error{
 	sourceDir := config.GetString(utils.DIR_SOURCE)
 	postsDir  := config.GetString(utils.DIR_POSTS)
 	publicDir := config.GetString(utils.DIR_PUBLIC)
+	postsTplPath := config.GetString(utils.DIR_THEME)
 
 	if !utils.ExistDir(sourceDir) {
 		return errors.New(fmt.Sprintf("source directory '%s' doesn't exist, cann't generate", sourceDir))
@@ -51,13 +52,18 @@ func Generate() error{
 		parse := render.New()
 
 		for _, fname := range files {
-			content, err := utils.ReadFile(path.Join(postsDir, fname))
+			mdContent, err := utils.ReadFile(path.Join(postsDir, fname))
+			if err != nil {
+				return err
+			}
+
+			postsTpl, err := utils.ReadFile(path.Join(postsTplPath, "post.hbs"))
 			if err != nil {
 				return err
 			}
 
 			// 调用markdown－>html方法, 得到文章信息、文章内容
-			fileInfo, htmlContent, err := parse.Single(content)
+			fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl)
 			if err != nil {
 				return err
 			}
@@ -66,8 +72,6 @@ func Generate() error{
 			month := strconv.Itoa(int(time.Now().Month()))
 			day := strconv.Itoa(time.Now().Day())
 			title := "untitled"+ strconv.Itoa(rand.Int())
-
-			fmt.Println()
 
 			// 根据文章信息创建文件夹
 			for k, v := range fileInfo {

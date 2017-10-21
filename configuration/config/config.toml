@@ -28,5 +28,8 @@ posts           = "./blog/source/posts"
 # pulic directory
 public         = "./blog/public"
 
+# theme
+theme          = "./blog/source/theme/default"
+
 
 
