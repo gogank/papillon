@@ -7,6 +7,7 @@ import (
 	"path"
 	"io/ioutil"
 	"strings"
+	"github.com/gogank/papillon/utils/sha3"
 )
 
 func Exist(filename string) bool {
@@ -104,4 +105,14 @@ func RemoveDir(dir string) error {
 		return err
 	}
 	return nil
+}
+
+func ByteHash(data ...[]byte) []byte {
+
+	hw := sha3.NewKeccak256()
+	for _, d := range data {
+		hw.Write(d)
+	}
+	hash := hw.Sum(nil)
+	return hash
 }

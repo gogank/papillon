@@ -4,6 +4,8 @@ import (
 	"github.com/gogank/papillon/publish"
 	"fmt"
 	"github.com/pkg/errors"
+	"github.com/gogank/papillon/utils"
+	"encoding/hex"
 )
 
 var linkMap map[string]string
@@ -15,6 +17,7 @@ func init(){
 }
 
 func Get(key string) string {
+	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if hash,ok := linkMap[key];ok {
 		return hash
 	}
@@ -23,6 +26,7 @@ func Get(key string) string {
 
 func Put(key string) (string,error) {
 	hash,err := publisher.AddFile(key)
+	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if err!= nil {
 		return "",err
 	}
