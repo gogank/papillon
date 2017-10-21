@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"fmt"
+	"path"
 	"io/ioutil"
 	"strings"
 )
@@ -14,10 +15,10 @@ func Exist(filename string) bool {
 	return err == nil || os.IsExist(err)
 }
 
+// 返回绝对路径
 func Abs(filename string) string {
 	path,err := filepath.Abs(filename)
 	if err != nil{
-		fmt.Errorf("convert abs err %v",err)
 		return filename
 	}
 	return path
@@ -53,6 +54,11 @@ func Mkfile(filename string,file []byte) bool {
 	}
 	f.Close();
 	return true
+}
+
+// 取得文件的后缀
+func Ext(filepath string) string{
+	return path.Ext(filepath)
 }
 
 func ListDir(dirPth string, suffix string) (files []string, err error) {
