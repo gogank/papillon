@@ -1,12 +1,11 @@
 package render
 
 import (
-	"github.com/russross/blackfriday"
 	"strings"
 	"bufio"
-	"fmt"
 	"io"
 	"github.com/aymerick/raymond"
+	blackfriday "gopkg.in/russross/blackfriday.v2"
 )
 
 type renderer struct {
@@ -18,7 +17,7 @@ func New() *renderer {
 // Single parse the single post content, return the config map and html content bytes
 func (render *renderer) DoRender(raw []byte, tpl []byte) (ctx map[string]string,result []byte, err error) {
 	ctx, raw_content,err := ReadPostConfig(raw)
-	html_content := blackfriday.MarkdownCommon(raw_content)
+	html_content := blackfriday.Run(raw_content)
 	//TODO 临时方案
 	ctx["content"] = string(html_content)
 	result_s, err := raymond.Render(string(tpl), ctx)
@@ -69,14 +68,12 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 				end_flag = true
 			}
 		} else if str_flag && end_flag {
-			fmt.Println(">>>>", string(line))
 			content = append(content,line...)
+			content = append(content,byte('\n'))
 		}
 	}
 
 	return postConf,content,nil
 }
 
-func (render *renderer) Directory(dir string, dst string) {
 
-}
