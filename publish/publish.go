@@ -30,3 +30,8 @@ func (publish *PublishImpl) AddFile(filename string) (string, error) {
 	hash,err := publish.shell.Add(reader)
 	return hash,err
 }
+
+func (publish *PublishImpl) AddDir(dir string) (string, error) {
+	hash,err := publish.shell.AddDir(dir)
+	return hash,err
+}
