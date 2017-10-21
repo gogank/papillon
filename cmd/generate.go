@@ -24,6 +24,6 @@ var generateCmd = &cobra.Command{
 		}
 		//TODO  specific logic
 		fmt.Println("Call Generate cmd!")
-		handler.Generate()
+		handler.Generate("./config.toml")
 	},
 }

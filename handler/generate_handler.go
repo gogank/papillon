@@ -13,8 +13,8 @@ import (
 	"math/rand"
 )
 
-func Generate() error{
-	config := config.NewConfig("../configuration/blog/config/config.toml")
+func Generate(conf_path string) error{
+	config := config.NewConfig(conf_path)
 
 	sourceDir := config.GetString(utils.DIR_SOURCE)
 	postsDir  := config.GetString(utils.DIR_POSTS)
