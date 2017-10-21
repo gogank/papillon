@@ -16,12 +16,12 @@ func init(){
 	publisher = publish.NewPublishImpl("localhost:5001")
 }
 
-func Get(key string) string {
+func Get(key string) (string,bool) {
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if hash,ok := linkMap[key];ok {
-		return hash
+		return hash,false
 	}
-	return ""
+	return "",true
 }
 
 func Put(key string) (string,error) {
