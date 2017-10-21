@@ -162,3 +162,5 @@ func IsInternal(link string) bool {
 	fmt.Println("Is NOT INTERNAL")
 	return false
 }
+
+
