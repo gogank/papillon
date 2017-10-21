@@ -24,8 +24,14 @@ func Generate() error{
 		return errors.New(fmt.Sprintf("source directory '%s' doesn't exist, cann't generate", sourceDir))
 	}
 
+	if utils.ExistDir(publicDir) {
+		if err := utils.RemoveDir(publicDir); err != nil {
+			return err
+		}
+	}
+
 	//todo 1. create public dir
-	if isSuccess := utils.Mkdir(publicDir); !isSuccess {
+	if !utils.Mkdir(publicDir) {
 		return errors.New(fmt.Sprintf("create directory %s failed", publicDir))
 	}
 
