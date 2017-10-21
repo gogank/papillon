@@ -98,3 +98,11 @@ func ExistDir(dir string) bool {
 	fmt.Println(err)
 	return false
 }
+
+func RemoveDir(dir string) error {
+	err := os.RemoveAll(dir)
+	if err != nil {
+		return err
+	}
+	return nil
+}
