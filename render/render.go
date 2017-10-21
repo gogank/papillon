@@ -22,30 +22,33 @@ func New() *renderer {
 }
 
 // Single parse the single post content, return the config map and html content bytes
-func (render *renderer) DoRender(raw []byte, tpl []byte,user_ctx map[string]string) (ctx map[string]string, result []byte, err error) {
-	if raw == nil{
-		ctx = make(map[string]string)
-	}else{
-		ctx, raw_content, err := readPostConfig(raw)
-		if err != nil{
-			return nil,nil,err
+func (render *renderer) DoRender(raw []byte, tpl []byte, user_ctx map[string]interface{}) (map[string]interface{}, []byte, error) {
+	inner_ctx := make(map[string]interface{})
+	if raw != nil {
+		post_ctx, raw_content, err := readPostConfig(raw)
+		if err != nil {
+			return nil, nil, err
 		}
 		html_content := blackfriday.Run(raw_content)
 		//TODO 临时方案
-		ctx["content"] = string(html_content)
-	}
-
-	if user_ctx != nil{
-		for key,value := range user_ctx{
-			ctx[key] = value
+		inner_ctx["content"] = string(html_content)
+		for key, value := range post_ctx {
+			inner_ctx[key] = value
 		}
 	}
-	result_s, err := raymond.Render(string(tpl), ctx)
+
+	if user_ctx != nil {
+		for key, value := range user_ctx {
+			inner_ctx[key] = value.(string)
+		}
+	}
+
+	result_s, err := raymond.Render(string(tpl), inner_ctx)
 	if err != nil {
 		return nil, nil, err
 	}
-	result = []byte(result_s)
-	return
+	result := []byte(result_s)
+	return inner_ctx, result, nil
 }
 
 func readPostConfig(raw []byte) (map[string]string, []byte, error) {
@@ -126,33 +129,33 @@ func ConvertLink(raw []byte) ([]byte, error) {
 }
 
 // changeSrc change TAG's `src` attr
-func changeSrc(i int, s *goquery.Selection){
-			if src, ok := s.Attr("src"); ok && IsInternal(src) {
-			fmt.Println(src)
-			if ipfs_link, ok := mapper.Get(src); ok {
-				s.SetAttr("src", ipfs_link +"OOOOO")
-			}
+func changeSrc(i int, s *goquery.Selection) {
+	if src, ok := s.Attr("src"); ok && IsInternal(src) {
+		fmt.Println(src)
+		if ipfs_link, ok := mapper.Get(src); ok {
+			s.SetAttr("src", ipfs_link+"OOOOO")
 		}
+	}
 }
 
 // changeSrc change TAG's `link` attr
-func changeLink(i int, s *goquery.Selection){
-			if src, ok := s.Attr("link"); ok && IsInternal(src) {
-			fmt.Println(src)
-			if ipfs_link, ok := mapper.Get(src); ok {
-				s.SetAttr("link", ipfs_link +"AAAASS")
-			}
+func changeLink(i int, s *goquery.Selection) {
+	if src, ok := s.Attr("link"); ok && IsInternal(src) {
+		fmt.Println(src)
+		if ipfs_link, ok := mapper.Get(src); ok {
+			s.SetAttr("link", ipfs_link+"AAAASS")
 		}
+	}
 }
 
 func IsInternal(link string) bool {
-	url,err := url.Parse(link)
-	if err!=nil{
+	_, err := url.Parse(link)
+	if err != nil {
 		panic(err)
 	}
-	return url.IsAbs()
+	//return url.IsAbs()
 
-	reg, err := regexp.Compile("^[http|https]://*.?$")
+	reg, err := regexp.Compile("^[http]?://*.?$")
 	if err != nil {
 		panic(err)
 	}
@@ -162,5 +165,3 @@ func IsInternal(link string) bool {
 	fmt.Println("Is NOT INTERNAL")
 	return false
 }
-
-
