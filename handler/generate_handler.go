@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"math/rand"
 	"github.com/mrunalp/fileutils"
+	"github.com/gogank/papillon/publish"
 )
 
 func Generate(conf_path string) error{
@@ -210,6 +211,14 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 	if !utils.Mkfile(indexPath, newIndexHtml) {
 		return errors.New(fmt.Sprintf("create file %s failed", indexPath))
 	}
+	pub := publish.NewPublishImpl("localhost:5001")
+	indexHash, err := pub.AddFile(indexPath)
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("convert index.html to https://ipfs.io/ipfs/"+ indexHash)
 
 	return nil
 }
