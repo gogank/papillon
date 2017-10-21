@@ -38,7 +38,7 @@ func (render *renderer) DoRender(raw []byte, tpl []byte, user_ctx map[string]int
 
 	if user_ctx != nil {
 		for key, value := range user_ctx {
-			inner_ctx[key] = value.(string)
+			inner_ctx[key] = value
 		}
 	}
 
