@@ -237,6 +237,7 @@ func (s *Shell) AddDir(dir string) (string, error) {
 	req.Opts["r"] = "true"
 	req.Body = reader
 
+
 	resp, err := req.Send(s.httpcli)
 	if err != nil {
 		return "", err

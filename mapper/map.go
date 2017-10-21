@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"path/filepath"
 	"os"
+	"strings"
 )
 
 var linkMap map[string]string

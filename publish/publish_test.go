@@ -25,7 +25,7 @@ func TestPublishImpl_AddFile(t *testing.T) {
 }
 
 func TestPublishImpl_AddDir(t *testing.T) {
-	hash,err := pub.AddDir("/Users/DeepSea/Documents/workspace/workspace_go/src/github.com/gogank/papillon/publish/test/.")
+	hash,err := pub.AddDir("./test/")
 	if err != nil {
 		t.Error(err)
 	}
