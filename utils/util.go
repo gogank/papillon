@@ -67,14 +67,13 @@ func ListDir(dirPth string, suffix string) (files []string, err error) {
 	if err != nil {
 		return nil, err
 	}
-	PthSep := string(os.PathSeparator)
 	suffix = strings.ToUpper(suffix) //忽略后缀匹配的大小写
 	for _, fi := range dir {
 		if fi.IsDir() { // 忽略目录
 			continue
 		}
 		if strings.HasSuffix(strings.ToUpper(fi.Name()), suffix) { //匹配文件
-			files = append(files, dirPth+PthSep+fi.Name())
+			files = append(files, fi.Name())
 		}
 	}
 	return files, nil
@@ -86,4 +85,16 @@ func ReadFile(filename string) ([]byte,error) {
 		return nil,err
 	}
 	return contents,nil
+}
+
+func ExistDir(dir string) bool {
+	_, err := os.Stat(dir)
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	fmt.Println(err)
+	return false
 }
