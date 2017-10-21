@@ -37,7 +37,7 @@ func TestConvertLink(t *testing.T) {
 
 	mapper.WalkDir("../test/asserts")
 	// "style/style.css"
-	html,e := ConvertLink(o)
+	html,e := r.ConvertLink(o)
 	assert.Nil(t,e)
 
 	t.Log(string(html))

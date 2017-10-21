@@ -127,7 +127,13 @@ func GetMeta(raw []byte) (map[string]string, error) {
 // 0. 如果是内部链接则继续
 // 1. 如果能够在ipfs网络中找到，则替换
 // 2. 如果不能在ipfs网络中找到，则不处理
-func (render *renderer)ConvertLink(raw []byte) ([]byte, error) {
+func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error) {
+	// upload files
+	_,err := mapper.WalkDir(parent_dir)
+	if err != nil{
+		return nil,err
+	}
+
 	sr := strings.NewReader(string(raw))
 	doc, err := goquery.NewDocumentFromReader(sr)
 	if err != nil {
@@ -188,6 +194,10 @@ func parseLink(link string) string{
 				}
 				link = string(append([]byte("/"),link...))
 			}
+	}
+	// 排除 /verndors/script/main.js?v=2.1.3
+	if strings.Contains(link,"?"){
+		link = strings.Split(link,"?")[0]
 	}
 	return link
 }

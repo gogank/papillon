@@ -12,7 +12,6 @@ import (
 	"strconv"
 	"math/rand"
 	"github.com/mrunalp/fileutils"
-	"github.com/gogank/papillon/mapper"
 )
 
 func Generate(conf_path string) error{
@@ -203,8 +202,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		return err
 	}
 
-	mapper.WalkDir(publicDir)
-	newIndexHtml, err := parse.ConvertLink(indexHtml)
+	newIndexHtml, err := parse.ConvertLink(indexHtml,publicDir)
 	if err != nil {
 		return err
 	}
