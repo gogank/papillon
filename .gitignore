@@ -64,5 +64,5 @@ fabric.properties
 *.iml
 build
 
-
-
+.idea/inspectionProfiles/
+.idea/modules.xml
