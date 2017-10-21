@@ -3,7 +3,6 @@ package publish
 import (
 	"testing"
 	"github.com/stretchr/testify/assert"
-	"fmt"
 )
 
 const (
@@ -35,7 +34,10 @@ func TestPublishImpl_AddDir(t *testing.T) {
 }
 
 func TestPublishImpl_AddFile2(t *testing.T) {
-	objs,_ := pub.shell.FileList(fmt.Sprintf("/ipfs/%s", "QmXqBwdxJHZPS8he9LZYpx1APyh4Kx8jEHccnmuVKyseag"))
-	lists := objs.Links
-	t.Log(len(lists))
+	err := pub.shell.Publish("QmRHfsJ9vR44vnr3W1Eq4Ef1J4dEgaQvsXziuEU7bjpEDT","QmcPdt8s9AJRzS8Yg6aLEwwqEzzDxmitaco44Hmke2tzLJ")
+	if err != nil {
+		t.Error(err)
+	}
+
 }
+
