@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 	"strconv"
+	"math/rand"
 )
 
 func Generate() error{
@@ -20,7 +21,7 @@ func Generate() error{
 	publicDir := config.GetString(utils.DIR_PUBLIC)
 
 	if !utils.ExistDir(sourceDir) {
-		return errors.New("source directory doesn't exist, cann't generate")
+		return errors.New(fmt.Sprintf("source directory '%s' doesn't exist, cann't generate", sourceDir))
 	}
 
 	//todo 1. create public dir
@@ -55,62 +56,67 @@ func Generate() error{
 				return err
 			}
 
-			//todo 根据文章信息创建文件夹
+			year := strconv.Itoa(time.Now().Year())
+			month := strconv.Itoa(int(time.Now().Month()))
+			day := strconv.Itoa(time.Now().Day())
+			title := "untitled"+ strconv.Itoa(rand.Int())
+
+			fmt.Println()
+
+			// 根据文章信息创建文件夹
 			for k, v := range fileInfo {
+
+				// 确定日期文件夹目录
 				if k == "date" {
 					ds := strings.Split(v,"/")
 
-					var (
-						year string
-						month string
-						day	string
-					)
-
-					// 如果日期未指定，则默认是当前日期
-					if len(ds) != 3 {
-						year = strconv.Itoa(time.Now().Year())
-						month = strconv.Itoa(int(time.Now().Month()))
-						day = strconv.Itoa(time.Now().Day())
-					}
-
-					year = ds[0]
-					month = ds[1]
-					day = ds[2]
-
-					// 检查年份文件夹是否存在
-					if !utils.ExistDir(path.Join(publicDir, "posts", year)) {
-						if !utils.Mkdir(path.Join(publicDir, "posts", year)) {
-							return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year)))
-						}
-					}
-
-					// 检查月份文件夹是否存在
-					if !utils.ExistDir(path.Join(publicDir, "posts", month)) {
-						if !utils.Mkdir(path.Join(publicDir, "posts", month)) {
-							return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", month)))
-						}
-					}
-
-					// 检查日期文件夹是否存在
-					if !utils.ExistDir(path.Join(publicDir, "posts", day)) {
-						if !utils.Mkdir(path.Join(publicDir, "posts", day)) {
-							return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", day)))
-						}
+					if len(ds) == 3 {
+						year = ds[0]
+						month = ds[1]
+						day = ds[2]
 					}
 				}
+
+				// 确定文章文件夹目录
 				if k == "title" {
-
+					title = v
 				}
 			}
 
-			//todo 根据文章内容创建html文件
-			if !utils.Mkfile(path.Join(publicDir, "posts", fname), htmlContent) {
-				return errors.New(fmt.Sprintf("create file %s failed", path.Join(publicDir, "posts", fname+".html")))
+			// 检查年份文件夹是否存在
+			if !utils.ExistDir(path.Join(publicDir, "posts", year)) {
+				if !utils.Mkdir(path.Join(publicDir, "posts", year)) {
+					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year)))
+				}
 			}
+
+			// 检查月份文件夹是否存在
+			if !utils.ExistDir(path.Join(publicDir, "posts", year, month)) {
+				if !utils.Mkdir(path.Join(publicDir, "posts", year, month)) {
+					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year, month)))
+				}
+			}
+
+			// 检查日期文件夹是否存在
+			if !utils.ExistDir(path.Join(publicDir, "posts", year, month, day)) {
+				if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day)) {
+					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year, month, day)))
+				}
+			}
+
+			if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day, title)) {
+				return errors.New(fmt.Sprintf("create directory %s failed",
+					path.Join(publicDir, "posts", year, month, day, title)))
+			}
+
+			// 根据文章内容创建html文件
+			fnameNoSuffix :=strings.Split(fname, ".")[0]
+			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, title, fnameNoSuffix+".html"), htmlContent) {
+				return errors.New(fmt.Sprintf("create file %s failed",
+					path.Join(publicDir,"posts", year, month, day, title, fnameNoSuffix+".html")))
+			}
+
 		}
-
-
-		//todo 4.
 	}
 	return nil
 }
