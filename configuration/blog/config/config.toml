@@ -29,7 +29,7 @@ posts           = "./blog/source/posts"
 public         = "./blog/public"
 
 # theme
-theme          = "./blog/source/theme/default"
+theme          = "./blog/theme/default"
 
 
 

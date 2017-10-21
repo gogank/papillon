@@ -14,12 +14,12 @@ import (
 )
 
 func Generate() error{
-	config := config.NewConfig("../configuration/config/config.toml")
+	config := config.NewConfig("../configuration/blog/config/config.toml")
 
 	sourceDir := config.GetString(utils.DIR_SOURCE)
 	postsDir  := config.GetString(utils.DIR_POSTS)
 	publicDir := config.GetString(utils.DIR_PUBLIC)
-	postsTplPath := config.GetString(utils.DIR_THEME)
+	themeDir := config.GetString(utils.DIR_THEME)
 
 	if !utils.ExistDir(sourceDir) {
 		return errors.New(fmt.Sprintf("source directory '%s' doesn't exist, cann't generate", sourceDir))
@@ -57,7 +57,7 @@ func Generate() error{
 				return err
 			}
 
-			postsTpl, err := utils.ReadFile(path.Join(postsTplPath, "post.hbs"))
+			postsTpl, err := utils.ReadFile(path.Join(themeDir, "post.hbs"))
 			if err != nil {
 				return err
 			}
