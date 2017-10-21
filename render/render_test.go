@@ -9,14 +9,6 @@ import (
 var TestPostPath = "../test/single.md"
 var TestTempl = "../test/post.hbs"
 
-
-
-func TestReadPostConfig(t *testing.T) {
-	b,e := ioutil.ReadFile(TestTempl)
-	assert.Nil(t,e)
-	ReadPostConfig(b)
-}
-
 func TestRenderer_DoRender(t *testing.T) {
 	r := &renderer{}
 	b,e := ioutil.ReadFile(TestPostPath)

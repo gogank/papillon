@@ -6,6 +6,7 @@ import (
 	"io"
 	"github.com/aymerick/raymond"
 	blackfriday "gopkg.in/russross/blackfriday.v2"
+	"errors"
 )
 
 type renderer struct {
@@ -16,7 +17,7 @@ func New() *renderer {
 }
 // Single parse the single post content, return the config map and html content bytes
 func (render *renderer) DoRender(raw []byte, tpl []byte) (ctx map[string]string,result []byte, err error) {
-	ctx, raw_content,err := ReadPostConfig(raw)
+	ctx, raw_content,err := readPostConfig(raw)
 	html_content := blackfriday.Run(raw_content)
 	//TODO 临时方案
 	ctx["content"] = string(html_content)
@@ -29,7 +30,7 @@ func (render *renderer) DoRender(raw []byte, tpl []byte) (ctx map[string]string,
 }
 
 
-func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
+func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 	sr := strings.NewReader(string(raw))
 	buf := bufio.NewReaderSize(sr, 4096)
 
@@ -51,6 +52,10 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 		// 开始读取第一行
 		if !str_flag && ! end_flag {
 			line_str :=  strings.TrimSpace(string(line))
+			// 防止没有 `---`
+			if !strings.HasPrefix(line_str,"-"){
+				continue
+			}
 			dash_line := string(line_str[0:3])
 			if dash_line == "---" {
 				str_flag = true
@@ -69,8 +74,13 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 			}
 		} else if str_flag && end_flag {
 			content = append(content,line...)
+			// 需要加上换行符，否则markdown会解析错误
 			content = append(content,byte('\n'))
 		}
+	}
+
+	if len(content) == 0 {
+		return nil,nil,errors.New("post has no configuration part")
 	}
 
 	return postConf,content,nil
