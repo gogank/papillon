@@ -6,6 +6,8 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"github.com/Joker/jade"
+	"github.com/gogank/papillon/utils"
 )
 
 type renderer struct {
@@ -20,6 +22,27 @@ func (render *renderer) Single(raw []byte) (map[string]string, []byte, error) {
 	output := blackfriday.MarkdownCommon(raw_content)
 	return post_conf, output, err
 }
+
+// DoRender apply the jade template and return rendered html content
+// html - html bytes content, generally from Single
+// template - jade template file path
+func (render *renderer) DoRender(html string,template string)(rendered_html []byte, err error){
+	tmpl_b , err := utils.ReadFile(template)
+	if err != nil{
+		return
+	}
+	tpl, err := jade.Parse("default", string(tmpl_b))
+
+	if err != nil {
+	fmt.Printf("Parse error: %v", err)
+	return
+	}
+
+	fmt.Printf( "Output:\n\n%s", tpl  )
+	return
+}
+
+
 
 func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 	sr := strings.NewReader(string(raw))
@@ -39,7 +62,7 @@ func ReadPostConfig(raw []byte) (map[string]string, []byte, error) {
 			panic("buffer overflow")
 		}
 		if err != io.EOF && err != nil  {
-			return nil,"",err
+			return nil,nil,err
 		}
 		fmt.Println(string(line))
 		// 开始读取第一行
