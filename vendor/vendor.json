@@ -298,6 +298,12 @@
 			"revisionTime": "2016-12-11T22:23:15Z"
 		},
 		{
+			"checksumSHA1": "IGscoJPT7KlnqScNxLp8NEa5aP8=",
+			"path": "github.com/mrunalp/fileutils",
+			"revision": "4ee1cc9a80582a0c75febdd5cfa779ee4361cbca",
+			"revisionTime": "2016-09-30T18:11:31Z"
+		},
+		{
 			"checksumSHA1": "dkLHZ9Hy+YEc7JKqA9eG49CYfDU=",
 			"path": "github.com/multiformats/go-multiaddr",
 			"revision": "f5c34dfc88cf420b72e9d4194f58616e745ea3d0",
