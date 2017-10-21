@@ -32,7 +32,7 @@ func decompressPoint(curve *KoblitzCurve, x *big.Int, ybit bool) (*big.Int, erro
 	x3 := new(big.Int).Mul(x, x)
 	x3.Mul(x3, x)
 	x3.Add(x3, curve.Params().B)
-	x3.ModSqrt()
+	x3.ModSqrt(x,curve.P)
 	// now calculate sqrt mod p of x2 + B
 	// This code used to do a full sqrt based on tonelli/shanks,
 	// but this was replaced by the algorithms referenced in
