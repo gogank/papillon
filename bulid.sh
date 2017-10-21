@@ -8,4 +8,4 @@ CONF_PATH="${PROJECT_PATH}/configuration/blog"
 
 cp -R "${PROJECT_PATH}/configuration/blog" "${PROJECT_PATH}/build"
 
-cd ${PROJECT_PATH} && govendor build -ldflags -s -o ${DUMP_PATH}/build/papi -tags=embed
+cd ${PROJECT_PATH} && govendor build -ldflags -s -o ${DUMP_PATH}/papi -tags=embed
