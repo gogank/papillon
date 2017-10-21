@@ -6,11 +6,8 @@ import (
 	"fmt"
 )
 
-// 检查文件或目录是否存在
-// 如果由 filename 指定的文件或目录存在则返回 true，否则返回 false
 func Exist(filename string) bool {
 	path := Abs(filename)
-	//fmt.Println(path)
 	_,err := os.Stat(path)
 	return err == nil || os.IsExist(err)
 }
@@ -33,11 +30,25 @@ func Mkdir(dir string) bool {
 	}
 	fmt.Println(path)
 	pwd, _ := os.Getwd()  //当前的目录
-	err := os.Mkdir(pwd+path+dir, os.ModePerm)  //在当前目录下生成md目录
+	err := os.Mkdir(pwd+path+dir, os.ModePerm)  //在当前目录下生成目录
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	fmt.Println("创建目录" + path + dir)
+	return true
+}
+
+func Mkfile(filename string,file []byte) bool {
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0766)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	_,err = f.Write(file)
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	f.Close();
 	return true
 }

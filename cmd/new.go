@@ -15,7 +15,7 @@ var newCmd = &cobra.Command{
 	Short: "New file in a static blog website.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) < 2{
+		if len(args) < 1{
 			fmt.Println("Errors:")
 			return
 		}
