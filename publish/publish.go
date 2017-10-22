@@ -5,6 +5,7 @@ import (
 	"github.com/gogank/papillon/utils"
 	"strings"
 	"os/exec"
+	"github.com/pkg/errors"
 )
 
 type Publish interface {
@@ -46,4 +47,20 @@ func (publish *PublishImpl) AddDirCmd(dir string) (string,error) {
 	strs := strings.Split(str," ")
 
 	return strs[len(strs)-2],nil
+}
+
+func (publish *PublishImpl) PublishCmd(hash string) (string,error) {
+	res,err := exec.Command("ipfs", "name","publish",hash).Output()
+	if err!= nil {
+		return "",err
+	}
+	str := string(res)
+	strs := strings.Split(str," ")
+	if len(strs) != 4 {
+		return "",errors.New("Publish Failed,please check the ipfs server.")
+	}
+	peer := strs[2]
+	length := len(peer)
+	peer = peer[:length-1]
+	return peer,nil
 }
