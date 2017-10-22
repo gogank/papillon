@@ -202,6 +202,12 @@
 			"revisionTime": "2017-10-19T15:12:54Z"
 		},
 		{
+			"checksumSHA1": "BfGta93BrkNKv6IFGKgbP72YZPc=",
+			"path": "github.com/libp2p/go-libp2p-connmgr",
+			"revision": "f0723b7cb49e6aceb14ace8d13ce0c085591166d",
+			"revisionTime": "2017-08-29T04:14:16Z"
+		},
+		{
 			"checksumSHA1": "ge8JGQZ1jh2hGrHVr4ruAVhcyjI=",
 			"path": "github.com/libp2p/go-libp2p-crypto",
 			"revision": "e89e1de117dd65c6129d99d1d853f48bc847cf17",
@@ -284,6 +290,18 @@
 			"path": "github.com/magiconair/properties",
 			"revision": "b3b15ef068fd0b17ddf408a23669f20811d194d2",
 			"revisionTime": "2017-01-13T09:48:12Z"
+		},
+		{
+			"checksumSHA1": "LuIRK2lfr9RRM6AGwWqn6+vY3yc=",
+			"path": "github.com/mikesun/go-ipfs-api",
+			"revision": "1ceae67676a953d0e00c91082d1f3d52b6400aa8",
+			"revisionTime": "2017-06-15T20:55:31Z"
+		},
+		{
+			"checksumSHA1": "7X2ro2IuFE2rjI3tgeoFN9W6OIg=",
+			"path": "github.com/mikesun/go-multipart-files",
+			"revision": "f359d8fc9c97876b2df7921a6ee5638cd3b0b31f",
+			"revisionTime": "2017-06-28T20:53:52Z"
 		},
 		{
 			"checksumSHA1": "V/quM7+em2ByJbWBLOsEwnY3j/Q=",
