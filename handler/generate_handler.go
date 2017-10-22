@@ -79,6 +79,8 @@ func Generate(conf_path string) error{
 			postCtx["blogTitle"] = cnf.GetString(utils.COMMON_TITLE)
 			postCtx["blogDesc"] = cnf.GetString(utils.COMMON_DESC)
 			postCtx["blogAuthor"] = cnf.GetString(utils.COMMON_AUTHOR)
+			postCtx["articlesCount"] = strconv.Itoa(len(files))
+
 			fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, postCtx)
 			if err != nil {
 				return err
@@ -178,6 +180,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 	}
 
 	indexCtx["articles"] = make([]map[string]interface{}, len(files))
+	indexCtx["articlesCount"] = len(files)
 
 	for i, fname := range files {
 		mdContent, err := utils.ReadFile(path.Join(postsDir, fname))

@@ -70,37 +70,6 @@
                             </a>
                         </li>
                     {{/each}}
-
-                    <!--<li class="menu-item menu-item-home">-->
-                        <!--<a href="/" rel="section">-->
-                            <!--<i class="menu-item-icon fa fa-fw fa-home"></i> <br />-->
-                            <!--首页-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item menu-item-categories">-->
-                        <!--<a href="/categories" rel="section">-->
-                            <!--<i class="menu-item-icon fa fa-fw fa-th"></i> <br />-->
-                            <!--分类-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item menu-item-about">-->
-                        <!--<a href="/about" rel="section">-->
-                            <!--<i class="menu-item-icon fa fa-fw fa-user"></i> <br />-->
-                            <!--关于-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item menu-item-archives">-->
-                        <!--<a href="/archives" rel="section">-->
-                            <!--<i class="menu-item-icon fa fa-fw fa-archive"></i> <br />-->
-                            <!--归档-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li class="menu-item menu-item-tags">-->
-                        <!--<a href="/tags" rel="section">-->
-                            <!--<i class="menu-item-icon fa fa-fw fa-tags"></i> <br />-->
-                            <!--标签-->
-                        <!--</a>-->
-                    <!--</li>-->
                 </ul>
             </nav>
         </div>
@@ -193,55 +162,19 @@
                         <nav class="site-state motion-element">
                             <div class="site-state-item site-state-posts">
                                 <a href="/archives">
-                                    <span class="site-state-item-count">6</span>
+                                    <span class="site-state-item-count">{{articlesCount}}</span>
                                     <span class="site-state-item-name">日志</span>
-                                </a>
-                            </div>
-
-
-                            <div class="site-state-item site-state-categories">
-                                <a href="/categories">
-                                    <span class="site-state-item-count">5</span>
-                                    <span class="site-state-item-name">分类</span>
-                                </a>
-                            </div>
-
-                            <div class="site-state-item site-state-tags">
-                                <a href="/tags">
-                                    <span class="site-state-item-count">2</span>
-                                    <span class="site-state-item-name">标签</span>
                                 </a>
                             </div>
                         </nav>
 
                         <div class="links-of-author motion-element">
-
-              <span class="links-of-author-item">
-                <a href="https://github.com/mxxim" target="_blank" title="Github">
-
-                    <i class="fa fa-fw fa-globe"></i>
-
-                  Github
-                </a>
-              </span>
-
                             <span class="links-of-author-item">
-                <a href="http://www.zhihu.com/people/mxximmin" target="_blank" title="知乎">
-
-                    <i class="fa fa-fw fa-globe"></i>
-
-                  知乎
-                </a>
-              </span>
-
-                            <span class="links-of-author-item">
-                <a href="http://www.jianshu.com/u/aed8e9f0551a" target="_blank" title="简书">
-
-                    <i class="fa fa-fw fa-book"></i>
-
-                  简书
-                </a>
-              </span>
+                                <a href="https://github.com/gogank/papillon" target="_blank" title="Github">
+                                    <i class="fa fa-fw fa-globe"></i>
+                                    Github
+                                 </a>
+                            </span>
                         </div>
                     </section>
                 </div>
@@ -252,18 +185,16 @@
     <footer id="footer" class="footer">
         <div class="footer-inner">
             <div class="copyright" >
-
                 &copy;
                 <span itemprop="copyrightYear">2017</span>
                 <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
+                    <i class="fa fa-heart"></i>
+                </span>
                 <span class="author" itemprop="copyrightHolder">{{author}}</span>
             </div>
             <div class="powered-by">
                 由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
             </div>
-
             <div class="theme-info">
                 主题 -
                 <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
