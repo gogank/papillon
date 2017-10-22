@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"fmt"
+	"github.com/gogank/papillon/handler"
 )
 
 func init() {
@@ -18,10 +19,10 @@ var newCmd = &cobra.Command{
 		if len(args) < 1{
 			fmt.Println("Errors:Please specific the markdown file path!")
 			fmt.Println("Example:")
-			fmt.Println("papi new ./test.md")
+			fmt.Println("papi new mypost")
 			return
 		}
 		//TODO specific logic
-		fmt.Println("Call NewMD cmd!")
+		handler.NewPost(args[0],"config.toml")
 	},
 }
