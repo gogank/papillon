@@ -30,6 +30,6 @@ var publishCmd = &cobra.Command{
 			fmt.Println("Errors:Publish Failed.")
 			return
 		}
-		fmt.Println("The Url is https://ipfs.io/ipns/",hash)
+		fmt.Println("The Url is https://ipfs.io/ipns/"+hash)
 	},
 }
