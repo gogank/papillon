@@ -17,11 +17,11 @@
 ipfs = "localhost:5001"
 
 # Blog title
-title           = "Alice's Blog"
+title           = "Papillon's Blog"
 # Blog description
-description     = "happy hacking, happy ganking"
+description     = "Happy hacking, happy ganking"
 # author name
-author          = "Alice"
+author          = "Papillon"
 
 ##########################################################
 #

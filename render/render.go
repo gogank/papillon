@@ -235,7 +235,8 @@ func ParseHtree(str string, st *stack) *stack{
 //GetMeta 取得文章元信息
 //返回文章元信息
 func GetMeta(raw []byte) (map[string]string, error) {
-	meta, _, err := readPostConfig(raw)
+	meta, content, err := readPostConfig(raw)
+	meta["abstract"]= string(blackfriday.Run(content[:302]))
 	return meta, err
 }
 
