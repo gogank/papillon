@@ -22,7 +22,7 @@ var newCmd = &cobra.Command{
 			fmt.Println("papi new mypost")
 			return
 		}
-		//TODO specific logic
 		handler.NewPost(args[0],"config.toml")
+		fmt.Println("Create articles successfully!")
 	},
 }

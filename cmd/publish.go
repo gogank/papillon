@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"fmt"
 	"github.com/gogank/papillon/publish"
+	"time"
 )
 
 func init() {
@@ -22,10 +23,30 @@ var publishCmd = &cobra.Command{
 			fmt.Println("papi pub")
 			return
 		}
-		//TODO  specific logic
-		fmt.Println("Call Publish cmd!")
+		fmt.Println(" ___         _     _ _     _     _")
+		fmt.Println("|  _ \\ _   _| |__ | (_)___| |__ (_)_ __   __ _")
+		fmt.Println("| |_) | | | | '_ \\| | / __| '_ \\| | '_ \\ / _` |")
+		fmt.Println("|  __/| |_| | |_) | | \\__ \\ | | | | | | | (_| |")
+	        fmt.Println("|_|    \\__,_|_.__/|_|_|___/_| |_|_|_| |_|\\__, |")
+	        fmt.Println("                                          |___/")
 		pub := publish.NewPublishImpl()
+		var flag bool
+		flag = false
+		ticker := time.NewTicker(time.Second * 1)
+		str := "=="
+		go func() {
+			for _ = range ticker.C {
+				fmt.Print(str)
+				str = "=="
+				if flag == true {
+					break
+				}
+			}
+		}()
 		hash,err := pub.PublishCmd()
+		flag = true
+		fmt.Print(">>100%")
+		fmt.Println()
 		if err != nil {
 			fmt.Println("Error: publish failed", err.Error())
 			return
