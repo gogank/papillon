@@ -91,12 +91,12 @@ func WalkDirCmd(dirPth string) ([]string, error) {
 			return nil
 		}
 		files = append(files, filename)
+		dirPthByte := []rune(dirPth)
+		filenameByte := []rune(filename)
 
-		key := string(filename[len(dirPth):])
-		value,err := publisher.LocalID()
-		if err != nil{
-			return err
-		}
+		key := string(filenameByte[len(dirPthByte):])
+		value := rootHash+string(filenameByte[len(dirPthByte):])
+
 		key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 		if err!= nil {
 			return err
