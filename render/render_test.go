@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"github.com/gogank/papillon/mapper"
+	"fmt"
 )
 
 var TestPostPath = "../test/single.md"
@@ -64,5 +65,24 @@ func TestIsInternal2(t *testing.T) {
 func TestIsSlashEnd(t *testing.T){
 	link := "www.papillon.com/"
 	assert.True(t,isSlashEnd(link))
+}
+
+func TestParseHtree(t *testing.T) {
+	line1 := "# line1"
+	line2 := "## line1"
+	line3 := "### line3"
+	st := ParseHtree(line1,nil)
+	st = ParseHtree(line2,st)
+	st = ParseHtree(line3,st)
+	for !st.empty(){
+		node := st.pop()
+		fmt.Println(node.level)
+		fmt.Println(node.content)
+		subtree := node.subTree
+
+		fmt.Println(subtree[0].level)
+		fmt.Println(subtree[0].content)
+		fmt.Println(subtree[0].subTree)
+	}
 }
 
