@@ -275,6 +275,7 @@ func (render *renderer) ConvertLink(raw []byte, parent_dir string) ([]byte, erro
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
+			fmt.Println("Convert: ", src, "to",ipfs_link)
 			//fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
 			s.SetAttr("src", addIPFSPrefix(ipfs_link))
 		}
@@ -286,6 +287,7 @@ func changeHref(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("href"); ok && isInternal(src) {
 		// 如果是内部链接，进行处理
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
+		fmt.Println("Convert: ", src, "to",ipfs_link)
 			s.SetAttr("href", addIPFSPrefix(ipfs_link))
 		}
 	}
