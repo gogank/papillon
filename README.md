@@ -27,9 +27,13 @@ cd $GOPATH/src/github.com/gogank/papillon
 
 make
 
-cd $GOPATH/src/github.com/gogank/papillon/build
+cd $GOPATH/src/github.com/gogank/papillon/build/blog
+
 # 生成新文章
 ./papi new mypost
+
+# 编辑它
+vim $GOPATH/src/github.com/gogank/papillon/build/blog/source/posts/mypost.md
 
 # 生成静态资源
 ./papi gen 
