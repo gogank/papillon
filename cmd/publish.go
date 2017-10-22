@@ -18,7 +18,7 @@ var publishCmd = &cobra.Command{
 	Long:  `Publish a new static blog website to ipfs`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 0{
-			fmt.Println("Errors:unnecessary args in cmd!")
+			fmt.Println("Errors: unnecessary args in cmd!")
 			fmt.Println("Example:")
 			fmt.Println("papi pub")
 			return
@@ -48,9 +48,9 @@ var publishCmd = &cobra.Command{
 		fmt.Print(">>100%")
 		fmt.Println()
 		if err != nil {
-			fmt.Println("Errors:Publish Failed.")
+			fmt.Println("Error: publish failed", err.Error())
 			return
 		}
-		fmt.Println("The Url is https://ipfs.io/ipns/",hash)
+		fmt.Println("The url is https://ipfs.io/ipns/"+hash)
 	},
 }

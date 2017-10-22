@@ -20,7 +20,7 @@ type PublishImpl struct {
 }
 
 func NewPublishImpl() *PublishImpl {
-	con := config.NewConfig("./config.toml")
+	con := config.NewConfig("/Users/chenquan/Workspace/go/src/github.com/gogank/papillon/configuration/blog/config.toml")
 	return &PublishImpl{
 		shell: api.NewShell(con.GetString(utils.COMMON_URL)),
 		cnf:con,

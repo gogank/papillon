@@ -69,11 +69,11 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 		// 如果 isPrefix 是true的话，则需要再读一行，然后继续处理
 		for isPrefix {
 			var newLine []byte
-			newLine, isPrefix,err = buf.ReadLine()
-			if err != nil && err != io.EOF{
-				return nil,nil,err
+			newLine, isPrefix, err = buf.ReadLine()
+			if err != nil && err != io.EOF {
+				return nil, nil, err
 			}
-			line = append(line,newLine...)
+			line = append(line, newLine...)
 		}
 		if err != io.EOF && err != nil {
 			return nil, nil, err
@@ -115,6 +115,122 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 	return postConf, content, nil
 }
 
+type HTreeNode struct {
+	level,
+	content string
+	subTree []*HTreeNode
+}
+
+type stack struct {
+	s []*HTreeNode
+}
+
+func (st *stack) push(node *HTreeNode) {
+	st.s = append(st.s, node)
+}
+
+func (st *stack) pop() *HTreeNode {
+	if len(st.s) == 0{
+		return nil
+	}
+	tmpn := st.s[len(st.s)-1]
+	st.s = st.s[0:len(st.s)-1]
+	return tmpn
+}
+func (st *stack) empty() bool {
+	return len(st.s) == 0
+}
+
+func (st *stack) len() int {
+	return len(st.s)
+}
+
+func newStack() *stack{
+	return &stack{
+		s : make([]*HTreeNode,0),
+	}
+}
+
+func ParseHtree(str string, st *stack) *stack{
+	sstr := strings.TrimSpace(str)
+	// h1
+	if strings.HasPrefix(sstr, "###") {
+		//子级别树
+	} else if strings.HasPrefix(sstr, "##") {
+		// 如果树为空则push root
+		if st.empty() {
+			root := &HTreeNode{
+				level:   "root",
+				content: "root",
+				subTree: make([]*HTreeNode, 0),
+			}
+			root.subTree = append(root.subTree,
+				&HTreeNode{
+					level:   "h1",
+					content: "",
+					subTree: make([]*HTreeNode, 0),
+				})
+			st.push(root)
+		}
+		// 找到根
+		node := st.pop()
+		for node.level != "h1" && node.level != "root" {
+			node = st.pop()
+		}
+		fmt.Println("%%%%", node.level)
+		// 不会是 nil
+		if node.level == "h1" {
+			node.subTree = append(node.subTree,
+				&HTreeNode{
+					level:   "h2",
+					content: sstr[2:],
+					subTree: make([]*HTreeNode, 0),
+				})
+		} else if node.level == "root" {
+			//如果是root
+			h1 := &HTreeNode{
+				level:   "h1",
+				content: "h1",
+				subTree: make([]*HTreeNode, 0),
+			}
+			h1.subTree = append(h1.subTree,
+				&HTreeNode{
+					level:   "h2",
+					content: sstr[2:],
+					subTree: make([]*HTreeNode, 0),
+				})
+			node.subTree = append(node.subTree, h1)
+		}
+		st.push(node)
+
+	} else if strings.HasPrefix(sstr, "#") {
+		if st == nil{
+			st = newStack()
+		}
+		if st.empty() {
+			st.push(&HTreeNode{
+				level:   "root",
+				content: "root",
+				subTree: make([]*HTreeNode, 0),
+			})
+		}
+		fmt.Println(st.len())
+		// 找到根
+		node := st.pop()
+		for node.level != "root" {
+			node = st.pop()
+		}
+		// 在根的子树中push
+		node.subTree = append(node.subTree, &HTreeNode{
+			level:   "h1",
+			content: sstr[1:] + "AAA",
+			subTree: make([]*HTreeNode, 0),
+		})
+		st.push(node)
+	}
+
+	return st;
+}
 
 //GetMeta 取得文章元信息
 //返回文章元信息
@@ -127,11 +243,11 @@ func GetMeta(raw []byte) (map[string]string, error) {
 // 0. 如果是内部链接则继续
 // 1. 如果能够在ipfs网络中找到，则替换
 // 2. 如果不能在ipfs网络中找到，则不处理
-func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error) {
+func (render *renderer) ConvertLink(raw []byte, parent_dir string) ([]byte, error) {
 	// upload files
-	_,err := mapper.WalkDirCmd(parent_dir)
-	if err != nil{
-		return nil,err
+	_, err := mapper.WalkDirCmd(parent_dir)
+	if err != nil {
+		return nil, err
 	}
 
 	sr := strings.NewReader(string(raw))
@@ -144,7 +260,7 @@ func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error
 	tagList["a"] = changeHref
 	tagList["script"] = changeSrc
 	tagList["img"] = changeSrc
-	for k,v := range tagList{
+	for k, v := range tagList {
 		doc.Find(k).Each(v)
 	}
 	html, err := doc.Html()
@@ -158,10 +274,9 @@ func (render *renderer)ConvertLink(raw []byte, parent_dir string) ([]byte, error
 // changeSrc 将img/script中的 src属性 进行替换
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
-		fmt.Println("--->", addIPFSPrefix(parseLink(src)))
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-				fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
-				s.SetAttr("src", addIPFSPrefix(ipfs_link))
+			//fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
+			s.SetAttr("src", addIPFSPrefix(ipfs_link))
 		}
 	}
 }
@@ -169,40 +284,38 @@ func changeSrc(i int, s *goquery.Selection) {
 // changeHref 将 link/a 中的 link href 属性进行替换
 func changeHref(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("href"); ok && isInternal(src) {
-		fmt.Println("--->", addIPFSPrefix(parseLink(src)))
 		// 如果是内部链接，进行处理
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-				s.SetAttr("href", addIPFSPrefix(ipfs_link))
+			s.SetAttr("href", addIPFSPrefix(ipfs_link))
 		}
 	}
 }
 
 //addIPFSPrefix 添加 IPFS 网络前缀
-func addIPFSPrefix(hash string) string{
+func addIPFSPrefix(hash string) string {
 	return "https://ipfs.io/ipfs/" + hash
 }
 
 //解析link 返回能够查询的静态资源key
-func parseLink(link string) string{
+func parseLink(link string) string {
 	if isInternal(link) {
-			fmt.Println("===>",link)
-			if isSlashEnd(link) && len(link) > 1{
-				link = link + "index.html"
+		if isSlashEnd(link) && len(link) > 1 {
+			link = link + "index.html"
+		}
+		if isRelative(link) {
+			fmt.Println("relative " + link)
+			if link[0] == '.' {
+				link = link[1:]
 			}
-			if isRelative(link){
-				fmt.Println("relative " + link)
-				if link[0] == '.' {
-					link = link[1:]
-				}
-				link = string(append([]byte("/"),link...))
-			}
+			link = string(append([]byte("/"), link...))
+		}
 	}
 	// 排除 /verndors/script/main.js?v=2.1.3
-	if strings.Contains(link,"?"){
-		link = strings.Split(link,"?")[0]
+	if strings.Contains(link, "?") {
+		link = strings.Split(link, "?")[0]
 	}
 	// 转换空格
-	link = strings.Replace(link," ","_",-1)
+	link = strings.Replace(link, " ", "_", -1)
 	return link
 }
 
@@ -224,9 +337,9 @@ func isSlashEnd(link string) bool {
 }
 
 //isRelative 判断是否是相对url
-func isRelative(link string) bool{
-	url,err := url.Parse(link)
-	if err != nil{
+func isRelative(link string) bool {
+	url, err := url.Parse(link)
+	if err != nil {
 		return false
 	}
 	return !url.IsAbs() && !isSlashStart(link)
