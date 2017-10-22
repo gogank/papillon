@@ -192,14 +192,14 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		if meta, err := render.GetMeta(mdContent); err == nil {
 			date := meta["date"]
 			title := strings.Replace(meta["title"], " ", "_", -1)
+			//title := meta["title"]
 
 			dateSlice = strings.Split(date, "/")
 
 			indexCtx["articles"].([]map[string]interface{})[i] = make(map[string]interface{})
 			indexCtx["articles"].([]map[string]interface{})[i]["date"] = date
-			indexCtx["articles"].([]map[string]interface{})[i]["title"] = title
+			indexCtx["articles"].([]map[string]interface{})[i]["title"] = meta["title"]
 			indexCtx["articles"].([]map[string]interface{})[i]["abstract"] = meta["abstract"]
-			fmt.Println("abstract is "+meta["abstract"])
 
 			articleURL := path.Join("posts", dateSlice[0], dateSlice[1], dateSlice[2], title, "index.html")
 			indexCtx["articles"].([]map[string]interface{})[i]["url"] = "/"+articleURL
