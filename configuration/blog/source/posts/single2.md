@@ -1,6 +1,6 @@
 ---
 title: Hello hackthon
-date: 2016/6/21
+date: 2017/10/22
 author: gogank
 data: aaa
 ---

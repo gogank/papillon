@@ -41,7 +41,8 @@
 
 
             <div class="custom-logo-site-title">
-                <a href="/"  class="brand" rel="start">
+                <!--<a href="/"  class="brand" rel="start">-->
+                <a href="javascript:void(0);"  class="brand" rel="start">
                     <span class="logo-line-before"><i></i></span>
                     <span class="site-title">{{title}}</span>
                     <span class="logo-line-after"><i></i></span>
@@ -129,33 +130,28 @@
                                           {{date}}
                                         </time>
                                       </span>
-                                        <span class="post-category" >
+                                        {{#if cate}}
+                                            <span class="post-category" >
                                           &nbsp; | &nbsp;
                                           <span class="post-meta-item-icon">
                                             <i class="fa fa-folder-o"></i>
                                           </span>
-                                          <span class="post-meta-item-text">分类于</span>
-
+                                            <span class="post-meta-item-text">分类于</span>
                                             <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                                              <a href="/categories/Web开发/" itemprop="url" rel="index">
+                                              <a href="/categories/Docker/" itemprop="url" rel="index">
                                                 <span itemprop="name">{{cate}}</span>
                                               </a>
                                             </span>
                                         </span>
-                                        <span class="post-comments-count">
-                                            &nbsp; | &nbsp;
-                                            <a href="/2017/09/05/compare-http-and-https/#comments" itemprop="discussionUrl">
-                                              <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/05/compare-http-and-https/" itemprop="commentsCount"></span>
-                                            </a>
+                                        {{/if}}
+                                        <span class="post-author">
+                                        &nbsp; | &nbsp;
+                                        <span class="post-meta-item-icon">
+                                            <i class="fa fa-user"></i>
                                         </span>
-                                        <span id="/2017/09/05/compare-http-and-https/" class="leancloud_visitors" data-flag-title="HTTP1.0、HTTP1.1、HTTP2和HTTPS的对比">
-                                           &nbsp; | &nbsp;
-                                           <span class="post-meta-item-icon">
-                                             <i class="fa fa-eye"></i>
-                                           </span>
-                                           <span class="post-meta-item-text">阅读次数 </span>
-                                           <span class="leancloud-visitors-count">9</span>
-                                        </span>
+                                        <span class="post-meta-item-text">作者</span>
+                                       <span>{{author}}</span>
+                                    </span>
                                     </div>
                                 </header>
                                 <!--<div class="post-body" itemprop="articleBody">-->
@@ -173,120 +169,6 @@
                                 </footer>
                             </article>
                         {{/each}}
-                        <!---->
-                        <!--<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">-->
-                            <!--<header class="post-header">-->
-                                <!--<h1 class="post-title" itemprop="name headline">-->
-                                    <!--<a class="post-title-link" href="/2017/09/05/compare-http-and-https/" itemprop="url">-->
-                                        <!--Hello GoHackthon-->
-                                    <!--</a>-->
-                                <!--</h1>-->
-                                <!--<div class="post-meta">-->
-                                      <!--<span class="post-time">-->
-                                        <!--<span class="post-meta-item-icon">-->
-                                          <!--<i class="fa fa-calendar-o"></i>-->
-                                        <!--</span>-->
-                                        <!--<span class="post-meta-item-text">发表于</span>-->
-                                        <!--<time itemprop="dateCreated" datetime="2017-09-05T19:38:18+08:00" content="2017-09-05">-->
-                                          <!--2017-09-05-->
-                                        <!--</time>-->
-                                      <!--</span>-->
-                                    <!--<span class="post-category" >-->
-                                          <!--&nbsp; | &nbsp;-->
-                                          <!--<span class="post-meta-item-icon">-->
-                                            <!--<i class="fa fa-folder-o"></i>-->
-                                          <!--</span>-->
-                                          <!--<span class="post-meta-item-text">分类于</span>-->
-
-                                            <!--<span itemprop="about" itemscope itemtype="https://schema.org/Thing">-->
-                                              <!--<a href="/categories/Web开发/" itemprop="url" rel="index">-->
-                                                <!--<span itemprop="name">Web开发</span>-->
-                                              <!--</a>-->
-                                            <!--</span>-->
-                                        <!--</span>-->
-                                    <!--<span class="post-comments-count">-->
-                                            <!--&nbsp; | &nbsp;-->
-                                            <!--<a href="/2017/09/05/compare-http-and-https/#comments" itemprop="discussionUrl">-->
-                                              <!--<span class="post-comments-count ds-thread-count" data-thread-key="2017/09/05/compare-http-and-https/" itemprop="commentsCount"></span>-->
-                                            <!--</a>-->
-                                        <!--</span>-->
-                                    <!--<span id="/2017/09/05/compare-http-and-https/" class="leancloud_visitors" data-flag-title="HTTP1.0、HTTP1.1、HTTP2和HTTPS的对比">-->
-                                           <!--&nbsp; | &nbsp;-->
-                                           <!--<span class="post-meta-item-icon">-->
-                                             <!--<i class="fa fa-eye"></i>-->
-                                           <!--</span>-->
-                                           <!--<span class="post-meta-item-text">阅读次数 </span>-->
-                                           <!--<span class="leancloud-visitors-count"></span>-->
-                                        <!--</span>-->
-                                <!--</div>-->
-                            <!--</header>-->
-                            <!--&lt;!&ndash;<div class="post-body" itemprop="articleBody">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><p>关于HTTP协议的介绍，可以参考文章：<a href="http://www.ruanyifeng.com/blog/2016/08/http.html">HTTP 协议入门 - 阮一峰的网络日志</a></p>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<h3 id="HTTP-1-1和HTTP-1-0的区别"><a href="#HTTP-1-1和HTTP-1-0的区别" class="headerlink" title="HTTP/1.1和HTTP/1.0的区别"></a>HTTP/1.1和HTTP/1.0的区别</h3><p>&emsp;1.  <strong>新增方法</strong> <code>PUT</code>、<code>PATCH</code>、<code>HEAD</code>、<code>OPTIONS</code>、<code>DELETE</code>  。<br>&emsp;2. <strong>请求头新增Host字段</strong> 用来指定服务器的域名，有个该字段，就可以将请求发往同一台服务器上的不同网站，为虚拟主机的兴起打下了基础。请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。<br>&emsp;3. <strong>持久连接</strong> HTTP1.1默认使用长连接。即TCP连接默认不关闭，可以被多个请求复用，不像HTTP1.0需要声明<code>Connection: keep-alive</code>。当连接一段时间未使用时，则自动关闭。<br>&emsp;4. <strong>管道机制</strong> HTTP1.1引入管道机制（pipelining）。即在同一个TCP连接里面，客户端可以<strong>同时发送</strong>多个请求，不过服务器还是按照顺序，先响应A请求，完成后再响应B请求。以前是在同一个TCP连接中，先发送A请求，等服务做出响应后，再发送B请求。（如果A需要处理很长时间，则会阻塞，HTTP/2 能解决这个问题）<br>&emsp;5.  <strong>响应头新增Content-Length字段</strong> 由于一个TCP连接可以传送多个响应，所以需要该字段来声明本次响应的数据长度来区分数据包是属于哪一个响应的。<br>&emsp;6.  <strong>支持分块传输编码</strong><br>&emsp;7.  <strong>缓存处理</strong> 在HTTP1.0中主要使用header里的If-Modified-Since,Expires来做为缓存判断的标准，HTTP1.1则引入了更多的缓存控制策略例如Entity tag，If-Unmodified-Since, If-Match, If-None-Match等更多可供选择的缓存头来控制缓存策略。<br>&emsp;8.  <strong>带宽优化及网络连接的使用</strong> HTTP1.0中，存在一些浪费带宽的现象，例如客户端只是需要某个对象的一部分，而服务器却将整个对象送过来了，并且不支持断点续传功能，HTTP1.1则在请求头引入了range头域，它允许只请求资源的某个部分，即返回码是206（Partial Content），这样就方便了开发者自由的选择以便于充分利用带宽和连接。<br>&emsp;9.  <strong>错误通知的管理</strong> 在HTTP1.1中新增了24个错误状态响应码，如409（Conflict）表示请求的资源与资源的当前状态发生冲突；410（Gone）表示服务器上的某个资源被永久性的删除。<br>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div class="post-more-link text-center">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a class="btn" href="/2017/09/05/compare-http-and-https/#more" rel="contents">&ndash;&gt;-->
-                            <!--&lt;!&ndash;阅读全文 &raquo;&ndash;&gt;-->
-                            <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                            <!--<footer class="post-footer">-->
-                                <!--<div class="post-eof"></div>-->
-                            <!--</footer>-->
-                        <!--</article>-->
-                        <!--<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">-->
-                            <!--<header class="post-header">-->
-                                <!--<h1 class="post-title" itemprop="name headline">-->
-                                    <!--<a class="post-title-link" href="/2017/01/02/committed-code-in-profile/" itemprop="url">-->
-                                        <!--Welcome to my blog-->
-                                    <!--</a>-->
-                                <!--</h1>-->
-                                <!--<div class="post-meta">-->
-                                    <!--<span class="post-time">-->
-                                        <!--<span class="post-meta-item-icon">-->
-                                          <!--<i class="fa fa-calendar-o"></i>-->
-                                        <!--</span>-->
-                                        <!--<span class="post-meta-item-text">发表于</span>-->
-                                        <!--<time itemprop="dateCreated" datetime="2017-01-02T01:51:33+08:00" content="2017-01-02">-->
-                                          <!--2017-01-02-->
-                                        <!--</time>-->
-                                      <!--</span>-->
-                                    <!--<span class="post-category" >-->
-                                      <!--&nbsp; | &nbsp;-->
-                                      <!--<span class="post-meta-item-icon">-->
-                                        <!--<i class="fa fa-folder-o"></i>-->
-                                      <!--</span>-->
-                                        <!--<span class="post-meta-item-text">分类于</span>-->
-                                        <!--<span itemprop="about" itemscope itemtype="https://schema.org/Thing">-->
-                                          <!--<a href="/categories/生活/" itemprop="url" rel="index">-->
-                                            <!--<span itemprop="name">生活</span>-->
-                                          <!--</a>-->
-                                        <!--</span>-->
-                                    <!--</span>-->
-                                    <!--<span class="post-comments-count">-->
-                                        <!--&nbsp; | &nbsp;-->
-                                        <!--<a href="/2017/01/02/committed-code-in-profile/#comments" itemprop="discussionUrl">-->
-                                          <!--<span class="post-comments-count ds-thread-count" data-thread-key="2017/01/02/committed-code-in-profile/" itemprop="commentsCount"></span>-->
-                                        <!--</a>-->
-                                    <!--</span>-->
-                                    <!--<span id="/2017/01/02/committed-code-in-profile/" class="leancloud_visitors" data-flag-title="2016 Committed code in profile">-->
-                                       <!--&nbsp; | &nbsp;-->
-                                       <!--<span class="post-meta-item-icon">-->
-                                         <!--<i class="fa fa-eye"></i>-->
-                                       <!--</span>-->
-                                       <!--<span class="post-meta-item-text">阅读次数 </span>-->
-                                       <!--<span class="leancloud-visitors-count"></span>-->
-                                    <!--</span>-->
-                                <!--</div>-->
-                            <!--</header>-->
-                            <!--&lt;!&ndash;<div class="post-body" itemprop="articleBody">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<p>I like Hackthon</p>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                            <!--<footer class="post-footer">-->
-                                <!--<div class="post-eof"></div>-->
-                            <!--</footer>-->
-                        <!--</article>-->
                     </section>
                 </div>
             </div>

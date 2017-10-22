@@ -186,9 +186,9 @@ func addIPFSPrefix(hash string) string{
 func parseLink(link string) string{
 	if isInternal(link) {
 			fmt.Println("===>",link)
-			if isSlashEnd(link) {
-				link = link + "index.html"
-			}
+			//if isSlashEnd(link) {
+			//	link = link + "index.html"
+			//}
 			if isRelative(link){
 				fmt.Println("relative " + link)
 				if link[0] == '.' {

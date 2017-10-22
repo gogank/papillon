@@ -35,7 +35,8 @@
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
         <div class="header-inner"><div class="site-meta ">
             <div class="custom-logo-site-title">
-                <a href="/" class="brand" rel="start">
+                <!--<a href="/" class="brand" rel="start">-->
+                <a href="javascript:void(0);" class="brand" rel="start" id="jumpToIndex">
                     <span class="logo-line-before"><i></i></span>
                     <span class="site-title">{{blogTitle}}</span>
                     <span class="logo-line-after"><i></i></span>
@@ -79,16 +80,17 @@
                                     {{title}}
                                 </h1>
                                 <div class="post-meta">
-                                            <span class="post-time">
-                                            <span class="post-meta-item-icon">
-                                              <i class="fa fa-calendar-o"></i>
-                                            </span>
-                                            <span class="post-meta-item-text">发表于</span>
-                                            <time itemprop="dateCreated" datetime="2016-08-05T18:37:04+08:00" content="{{date}}">
-                                              {{date}}
-                                            </time>
+                                    <span class="post-time">
+                                        <span class="post-meta-item-icon">
+                                            <i class="fa fa-calendar-o"></i>
                                         </span>
-                                    <span class="post-category" >
+                                        <span class="post-meta-item-text">发表于</span>
+                                        <time itemprop="dateCreated" datetime="2016-08-05T18:37:04+08:00" content="{{date}}">
+                                              {{date}}
+                                        </time>
+                                    </span>
+                                    {{#if cate}}
+                                        <span class="post-category" >
                                           &nbsp; | &nbsp;
                                           <span class="post-meta-item-icon">
                                             <i class="fa fa-folder-o"></i>
@@ -99,16 +101,16 @@
                                                 <span itemprop="name">{{cate}}</span>
                                               </a>
                                             </span>
-
                                         </span>
-                                    <span id="/2016/08/05/learning-docker-part-one/" class="leancloud_visitors" data-flag-title="Docker学习（一）——认识Docker">
-                                           &nbsp; | &nbsp;
-                                           <span class="post-meta-item-icon">
-                                             <i class="fa fa-eye"></i>
-                                           </span>
-                                           <span class="post-meta-item-text">阅读次数 </span>
-                                           <span class="leancloud-visitors-count">6</span>
+                                    {{/if}}
+                                    <span class="post-author">
+                                        &nbsp; | &nbsp;
+                                        <span class="post-meta-item-icon">
+                                            <i class="fa fa-user"></i>
                                         </span>
+                                        <span class="post-meta-item-text">作者</span>
+                                       <span>{{author}}</span>
+                                    </span>
                                 </div>
                             </header>
 
@@ -246,17 +248,6 @@
         <i class="fa fa-heart"></i>
       </span>
                 <span class="author" itemprop="copyrightHolder">{{blogAuthor}}</span>
-            </div>
-
-            <div class="powered-by">
-                由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-            </div>
-
-            <div class="theme-info">
-                主题 -
-                <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-                    NexT.Muse
-                </a>
             </div>
         </div>
     </footer>
@@ -397,6 +388,10 @@
         } else if ($('.post-title-link').length > 1) {
             showTime(Counter);
         }
+
+        $("#jumpToIndex").click(function() {
+            window.history.back(-1);
+        })
     });
 </script>
 </body>

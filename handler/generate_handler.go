@@ -142,7 +142,7 @@ func Generate(conf_path string) error{
 			if err != nil {
 				return err
 			}
-			fmt.Println(string(newHtmlContent))
+
 			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, newTitle, "index.html"), newHtmlContent) {
 				return errors.New(fmt.Sprintf("create file %s failed",
 					path.Join(publicDir,"posts", year, month, day, newTitle, "index.html")))
