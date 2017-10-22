@@ -7,7 +7,7 @@
 
 # ipfs api url
 
-ipfs = "localhost"
+ipfs = "localhost:5001"
 
 # Blog title
 title           = "Alice's Blog"
@@ -34,6 +34,3 @@ public         = "./public"
 
 # theme
 theme          = "./theme/default"
-
-
-

@@ -5,14 +5,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	shellUrl     = "localhost:5001"
-)
-
 var pub *PublishImpl
 
 func init()  {
-	pub = NewPublishImpl(shellUrl)
+	pub = NewPublishImpl()
 }
 
 func TestPublishImpl_AddFile(t *testing.T) {
@@ -43,7 +39,7 @@ func TestPublishImpl_AddFile2(t *testing.T) {
 }
 
 func TestPublishImpl_PublishCmd(t *testing.T) {
-	peer,err :=  pub.PublishCmd("QmQhqAt54w6hkuqZQWctYJBFfhowGJV2LtiZh7B5gePRFw")
+	peer,err :=  pub.PublishCmd()
 	if err != nil {
 		t.Error(err)
 	}

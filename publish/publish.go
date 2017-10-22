@@ -6,6 +6,7 @@ import (
 	"strings"
 	"os/exec"
 	"github.com/pkg/errors"
+	"github.com/gogank/papillon/configuration"
 )
 
 type Publish interface {
@@ -15,11 +16,14 @@ type Publish interface {
 
 type PublishImpl struct {
 	shell *api.Shell
+	cnf   *config.Config
 }
 
-func NewPublishImpl(url string) *PublishImpl {
+func NewPublishImpl() *PublishImpl {
+	con := config.NewConfig("./config.toml")
 	return &PublishImpl{
-		shell: api.NewShell(url),
+		shell: api.NewShell(con.GetString(utils.COMMON_URL)),
+		cnf:con,
 	}
 }
 
@@ -61,7 +65,12 @@ func(publish *PublishImpl)LocalID() (string,error){
 	return id.ID,nil
 }
 
-func (publish *PublishImpl) PublishCmd(hash string) (string,error) {
+func (publish *PublishImpl) PublishCmd() (string,error) {
+	dir := publish.cnf.GetString(utils.DIR_PUBLIC) + "/index.html"
+	hash,err := publish.AddDirCmd(dir)
+	if err!= nil {
+		return "",err
+	}
 	res,err := exec.Command("ipfs", "name","publish",hash).Output()
 	if err!= nil {
 		return "",err

@@ -221,7 +221,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 	if !utils.Mkfile(indexPath, newIndexHtml) {
 		return errors.New(fmt.Sprintf("create file %s failed", indexPath))
 	}
-	pub := publish.NewPublishImpl("localhost:5001")
+	pub := publish.NewPublishImpl()
 	indexHash, err := pub.AddFile(indexPath)
 
 	if err != nil {
