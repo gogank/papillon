@@ -8,14 +8,18 @@ import (
 	"path/filepath"
 	"os"
 	"strings"
+	"github.com/gogank/papillon/configuration"
 )
 
 var linkMap map[string]string
 var publisher *publish.PublishImpl
+var url string
 
 func init(){
+	cnf := config.NewConfig("./config.toml")
 	linkMap = make(map[string]string)
-	publisher = publish.NewPublishImpl("localhost:5001")
+	url = cnf.GetString(utils.COMMON_URL)
+	publisher = publish.NewPublishImpl(url)
 }
 
 func Get(key string) (string,bool) {

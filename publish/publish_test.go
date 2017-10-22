@@ -42,6 +42,16 @@ func TestPublishImpl_AddFile2(t *testing.T) {
 	t.Log(res)
 }
 
+func TestPublishImpl_PublishCmd(t *testing.T) {
+	peer,err :=  pub.PublishCmd("QmQhqAt54w6hkuqZQWctYJBFfhowGJV2LtiZh7B5gePRFw")
+	if err != nil {
+		t.Error(err)
+	}
+	assert.Nil(t,err)
+	t.Log(peer)
+}
+
+
 func TestPublishImpl_NamePublish(t *testing.T) {
 	id,err := pub.LocalID()
 	assert.Nil(t,err)

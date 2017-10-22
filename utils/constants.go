@@ -5,6 +5,7 @@ const (
 	COMMON_TITLE = "title"
 	COMMON_DESC	 = "description"
 	COMMON_AUTHOR= "author"
+	COMMON_URL= "ipfs"
 )
 
 const (
