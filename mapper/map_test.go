@@ -26,5 +26,5 @@ func TestWalkDir(t *testing.T) {
 }
 
 func TestWalkDirCmd(t *testing.T) {
-	WalkDirCmd("./test")
+	WalkDirCmd("/Users/chenquan/Workspace/go/src/github.com/gogank/papillon/build/blog/public")
 }

@@ -169,6 +169,7 @@ func changeSrc(i int, s *goquery.Selection) {
 // changeHref 将 link/a 中的 link href 属性进行替换
 func changeHref(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("href"); ok && isInternal(src) {
+		fmt.Println("--->", addIPFSPrefix(parseLink(src)))
 		// 如果是内部链接，进行处理
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
 				s.SetAttr("href", addIPFSPrefix(ipfs_link))
@@ -184,6 +185,7 @@ func addIPFSPrefix(hash string) string{
 //解析link 返回能够查询的静态资源key
 func parseLink(link string) string{
 	if isInternal(link) {
+			fmt.Println("===>",link)
 			if isSlashEnd(link) {
 				link = link + "index.html"
 			}

@@ -80,7 +80,13 @@ func WalkDirCmd(dirPth string) ([]string, error) {
 	if bol {
 		dirPth = string(dirPthByte[len([]rune("./")):])
 	}
-	rootHash,err := publisher.AddDirCmd(dirPth)
+	rootHash,err := publisher.AddDir(dirPth)
+	if err != nil{
+		return nil,err
+	}
+	rootkey := hex.EncodeToString(utils.ByteHash([]byte("/")))
+	linkMap[rootkey] = rootHash
+
 	err = filepath.Walk(dirPth, func(filename string, fi os.FileInfo, err error) error { //遍历目录
 		if err != nil { //忽略错误
 			return err

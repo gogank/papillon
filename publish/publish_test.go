@@ -42,4 +42,10 @@ func TestPublishImpl_AddFile2(t *testing.T) {
 	t.Log(res)
 }
 
-
+func TestPublishImpl_NamePublish(t *testing.T) {
+	id,err := pub.LocalID()
+	assert.Nil(t,err)
+	t.Log(id)
+	//err = pub.NamePublish(id,"QmPgHm5A9vzb1xETRFC9jzSbye14yDkVwozkRyZ6zokp83")
+	//assert.Nil(t,err)
+}

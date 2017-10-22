@@ -1,7 +1,7 @@
 package publish
 
 import (
-	api"github.com/ipfs/go-ipfs-api"
+	api"github.com/mikesun/go-ipfs-api"
 	"github.com/gogank/papillon/utils"
 	"strings"
 	"os/exec"
@@ -46,4 +46,16 @@ func (publish *PublishImpl) AddDirCmd(dir string) (string,error) {
 	strs := strings.Split(str," ")
 
 	return strs[len(strs)-2],nil
+}
+
+func (publish *PublishImpl)NamePublish(name, hash string)(error){
+	return publish.shell.Publish(name,hash)
+}
+
+func(publish *PublishImpl)LocalID() (string,error){
+	id,err := publish.shell.ID()
+	if err != nil{
+		return "",err
+	}
+	return id.ID,nil
 }
