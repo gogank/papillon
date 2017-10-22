@@ -2,7 +2,6 @@
 title: 文章标题
 date: 2017/10/21
 author: gogank
-data: aaa
 ---
 
 # Papillon single example

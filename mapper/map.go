@@ -37,10 +37,6 @@ func Put(key string,dir string) (string,error) {
 	if err!= nil {
 		return "",err
 	}
-	//if _,ok := linkMap[key];ok {
-	//	fmt.Println("This file has alreadly upload.")
-	//	return "",errors.New("This file has alreadly upload.")
-	//}
 	linkMap[key] = hash
 	return hash,nil
 }
@@ -95,20 +91,16 @@ func WalkDirCmd(dirPth string) ([]string, error) {
 			return nil
 		}
 		files = append(files, filename)
-		dirPthByte := []rune(dirPth)
-		filenameByte := []rune(filename)
 
-		key := string(filenameByte[len(dirPthByte):])
-		value := rootHash+string(filenameByte[len(dirPthByte):])
-
+		key := string(filename[len(dirPth):])
+		value,err := publisher.LocalID()
+		if err != nil{
+			return err
+		}
 		key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 		if err!= nil {
 			return err
 		}
-		//if _,ok := linkMap[key];ok {
-		//	fmt.Println("This file has alreadly upload.")
-		//	return errors.New("This file has alreadly upload.")
-		//}
 		linkMap[key] = value
 		return nil
 	})

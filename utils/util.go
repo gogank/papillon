@@ -42,7 +42,7 @@ func Mkdir(dir string) bool {
 }
 
 func Mkfile(filename string,file []byte) bool {
-	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0766)
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return false
