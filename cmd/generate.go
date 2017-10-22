@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"fmt"
 	"github.com/gogank/papillon/handler"
+	"time"
 )
 
 func init() {
@@ -22,9 +23,14 @@ var generateCmd = &cobra.Command{
 			fmt.Println("papi gen")
 			return
 		}
-		//TODO  specific logic
-		fmt.Println("Call Generate cmd!")
-
+		fmt.Println("  ____                           _   _")
+		fmt.Println(" / ___| ___ _ __   ___ _ __ __ _| |_(_)_ __   __ _")
+		fmt.Println("| |  _ / _ \\ '_ \\ / _ \\ '__/ _` | __| | '_ \\ / _` |")
+		fmt.Println("| |_| |  __/ | | |  __/ | | (_| | |_| | | | | (_| |")
+		fmt.Println(" \\____|\\___|_| |_|\\___|_|  \\__,_|\\__|_|_| |_|\\__, |")
+		fmt.Println("                                              |___/")
+		//TODO Sleep 5 Second
+		time.Sleep(time.Second*5)
 		if err := handler.Generate("./config.toml"); err != nil {
 			panic(err.Error())
 		}
