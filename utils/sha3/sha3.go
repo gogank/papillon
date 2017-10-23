@@ -65,7 +65,7 @@ func (d *state) clone() *state {
 	if ret.state == spongeAbsorbing {
 		ret.buf = ret.storage[:len(ret.buf)]
 	} else {
-		ret.buf = ret.storage[d.rate-cap(d.buf): d.rate]
+		ret.buf = ret.storage[d.rate-cap(d.buf) : d.rate]
 	}
 
 	return &ret

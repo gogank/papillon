@@ -2,17 +2,18 @@ package render
 
 import (
 	"fmt"
-	"github.com/gogank/papillon/mapper"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"testing"
+
+	"github.com/gogank/papillon/mapper"
+	"github.com/stretchr/testify/assert"
 )
 
 var TestPostPath = "../test/single.md"
 var TestTempl = "../test/post.hbs"
 
 func TestRenderer_DoRender(t *testing.T) {
-	r := &renderer{}
+	r := &Renderer{}
 	b, e := ioutil.ReadFile(TestPostPath)
 	assert.Nil(t, e)
 
@@ -26,7 +27,7 @@ func TestRenderer_DoRender(t *testing.T) {
 }
 
 func TestConvertLink(t *testing.T) {
-	r := &renderer{}
+	r := &Renderer{}
 	b, e := ioutil.ReadFile(TestPostPath)
 	assert.Nil(t, e)
 
@@ -70,9 +71,9 @@ func TestParseHtree(t *testing.T) {
 	line1 := "# line1"
 	line2 := "## line1"
 	line3 := "### line3"
-	st := ParseHtree(line1, nil)
-	st = ParseHtree(line2, st)
-	st = ParseHtree(line3, st)
+	st := parseHtree(line1, nil)
+	st = parseHtree(line2, st)
+	st = parseHtree(line3, st)
 	for !st.empty() {
 		node := st.pop()
 		fmt.Println(node.level)

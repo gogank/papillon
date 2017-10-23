@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"errors"
 	"fmt"
 	"math/rand"
 	"path"
@@ -178,7 +177,7 @@ func genIndexHTML(cnf *config.Config, indexPath string) error {
 	// 首页的文章信息
 	files, err := utils.ListDir(postsDir, "md")
 	if err != nil {
-		return errors.New(fmt.Sprintf("read directory %s failed", postsDir))
+		return fmt.Errorf("read directory %s failed", postsDir)
 	}
 
 	indexCtx["articles"] = make([]map[string]interface{}, len(files))

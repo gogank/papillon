@@ -18,7 +18,7 @@ func Exist(filename string) bool {
 	return err == nil || os.IsExist(err)
 }
 
-// get a file path's abs path
+//Abs get a file path's abs path
 func Abs(filename string) string {
 	path, err := filepath.Abs(filename)
 	if err != nil {
@@ -44,7 +44,7 @@ func Mkdir(dir string) bool {
 	return true
 }
 
-//Mkdir make a file by spicific path and file content
+//Mkfile make a file by spicific path and file content
 func Mkfile(filename string, file []byte) bool {
 	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0664)
 	if err != nil {

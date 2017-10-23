@@ -4,53 +4,56 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
-	"github.com/aymerick/raymond"
-	"github.com/gogank/papillon/mapper"
-	"gopkg.in/russross/blackfriday.v2"
 	"io"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/PuerkitoBio/goquery"
+	"github.com/aymerick/raymond"
+	"github.com/gogank/papillon/mapper"
+	"gopkg.in/russross/blackfriday.v2"
 )
 
-type renderer struct {
+//Renderer main renderer function supplier
+type Renderer struct {
 }
 
-func New() *renderer {
-	return &renderer{}
+//New return a Renderer instance
+func New() *Renderer {
+	return &Renderer{}
 }
 
 // DoRender 进行渲染，将markdown 原始内容 和模板传入，并进行渲染
 // 如果 raw = nil, 则仅进行 tpl + user_ctx 渲染
 // 如果 raw != nil 则先对raw 进行markdown解析，然后把解析结果 user_ctx["content"] = parsedHtml
-func (render *renderer) DoRender(raw []byte, tpl []byte, user_ctx map[string]interface{}) (map[string]interface{}, []byte, error) {
-	inner_ctx := make(map[string]interface{})
+func (render *Renderer) DoRender(raw []byte, tpl []byte, userCtx map[string]interface{}) (map[string]interface{}, []byte, error) {
+	innerCtx := make(map[string]interface{})
 	if raw != nil {
-		post_ctx, raw_content, err := readPostConfig(raw)
+		postCtx, rawContent, err := readPostConfig(raw)
 		if err != nil {
 			return nil, nil, err
 		}
-		html_content := blackfriday.Run(raw_content)
+		HTMLContent := blackfriday.Run(rawContent)
 		//TODO 临时方案
-		inner_ctx["content"] = string(html_content)
-		for key, value := range post_ctx {
-			inner_ctx[key] = value
+		innerCtx["content"] = string(HTMLContent)
+		for key, value := range postCtx {
+			innerCtx[key] = value
 		}
 	}
 
-	if user_ctx != nil {
-		for key, value := range user_ctx {
-			inner_ctx[key] = value
+	if userCtx != nil {
+		for key, value := range userCtx {
+			innerCtx[key] = value
 		}
 	}
 
-	result_s, err := raymond.Render(string(tpl), inner_ctx)
+	resultS, err := raymond.Render(string(tpl), innerCtx)
 	if err != nil {
 		return nil, nil, err
 	}
-	result := []byte(result_s)
-	return inner_ctx, result, nil
+	result := []byte(resultS)
+	return innerCtx, result, nil
 }
 
 //readPostConfig 读取文章，过滤文章元信息，并返回需要进行markdown parse的内容
@@ -61,8 +64,8 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 	content := make([]byte, 0)
 	postConf := make(map[string]string)
 
-	str_flag := false
-	end_flag := false
+	strFlag := false
+	endFlag := false
 
 	for line, isPrefix, err := []byte{0}, false, error(nil); len(line) >= 0 && err == nil; {
 		line, isPrefix, err = buf.ReadLine()
@@ -79,29 +82,29 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 			return nil, nil, err
 		}
 		// 开始读取第一行
-		if !str_flag && !end_flag {
-			line_str := strings.TrimSpace(string(line))
+		if !strFlag && !endFlag {
+			lineStr := strings.TrimSpace(string(line))
 			// 防止没有 `---`
-			if !strings.HasPrefix(line_str, "-") {
+			if !strings.HasPrefix(lineStr, "-") {
 				continue
 			}
-			dash_line := string(line_str[0:3])
-			if dash_line == "---" {
-				str_flag = true
+			dashLine := string(lineStr[0:3])
+			if dashLine == "---" {
+				strFlag = true
 			}
 			// 判断是否是配置区域
-		} else if str_flag && !end_flag {
-			line_str := strings.TrimSpace(string(line))
-			dash_line := string(line_str[0:3])
-			if dash_line != "---" && strings.Contains(line_str, ":") {
+		} else if strFlag && !endFlag {
+			lineStr := strings.TrimSpace(string(line))
+			dashLine := string(lineStr[0:3])
+			if dashLine != "---" && strings.Contains(lineStr, ":") {
 				tmp := strings.Split(string(line), ":")
 				key := strings.TrimSpace(tmp[0])
 				value := strings.TrimSpace(tmp[1])
 				postConf[key] = value
-			} else if dash_line == "---" {
-				end_flag = true
+			} else if dashLine == "---" {
+				endFlag = true
 			}
-		} else if str_flag && end_flag {
+		} else if strFlag && endFlag {
 			content = append(content, line...)
 			// 需要加上换行符，否则markdown会解析错误
 			content = append(content, byte('\n'))
@@ -115,21 +118,21 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 	return postConf, content, nil
 }
 
-type HTreeNode struct {
+type hTreeNode struct {
 	level,
 	content string
-	subTree []*HTreeNode
+	subTree []*hTreeNode
 }
 
 type stack struct {
-	s []*HTreeNode
+	s []*hTreeNode
 }
 
-func (st *stack) push(node *HTreeNode) {
+func (st *stack) push(node *hTreeNode) {
 	st.s = append(st.s, node)
 }
 
-func (st *stack) pop() *HTreeNode {
+func (st *stack) pop() *hTreeNode {
 	if len(st.s) == 0 {
 		return nil
 	}
@@ -147,11 +150,11 @@ func (st *stack) len() int {
 
 func newStack() *stack {
 	return &stack{
-		s: make([]*HTreeNode, 0),
+		s: make([]*hTreeNode, 0),
 	}
 }
 
-func ParseHtree(str string, st *stack) *stack {
+func parseHtree(str string, st *stack) *stack {
 	sstr := strings.TrimSpace(str)
 	// h1
 	if strings.HasPrefix(sstr, "###") {
@@ -159,16 +162,16 @@ func ParseHtree(str string, st *stack) *stack {
 	} else if strings.HasPrefix(sstr, "##") {
 		// 如果树为空则push root
 		if st.empty() {
-			root := &HTreeNode{
+			root := &hTreeNode{
 				level:   "root",
 				content: "root",
-				subTree: make([]*HTreeNode, 0),
+				subTree: make([]*hTreeNode, 0),
 			}
 			root.subTree = append(root.subTree,
-				&HTreeNode{
+				&hTreeNode{
 					level:   "h1",
 					content: "",
-					subTree: make([]*HTreeNode, 0),
+					subTree: make([]*hTreeNode, 0),
 				})
 			st.push(root)
 		}
@@ -177,27 +180,26 @@ func ParseHtree(str string, st *stack) *stack {
 		for node.level != "h1" && node.level != "root" {
 			node = st.pop()
 		}
-		fmt.Println("%%%%", node.level)
 		// 不会是 nil
 		if node.level == "h1" {
 			node.subTree = append(node.subTree,
-				&HTreeNode{
+				&hTreeNode{
 					level:   "h2",
 					content: sstr[2:],
-					subTree: make([]*HTreeNode, 0),
+					subTree: make([]*hTreeNode, 0),
 				})
 		} else if node.level == "root" {
 			//如果是root
-			h1 := &HTreeNode{
+			h1 := &hTreeNode{
 				level:   "h1",
 				content: "h1",
-				subTree: make([]*HTreeNode, 0),
+				subTree: make([]*hTreeNode, 0),
 			}
 			h1.subTree = append(h1.subTree,
-				&HTreeNode{
+				&hTreeNode{
 					level:   "h2",
 					content: sstr[2:],
-					subTree: make([]*HTreeNode, 0),
+					subTree: make([]*hTreeNode, 0),
 				})
 			node.subTree = append(node.subTree, h1)
 		}
@@ -208,10 +210,10 @@ func ParseHtree(str string, st *stack) *stack {
 			st = newStack()
 		}
 		if st.empty() {
-			st.push(&HTreeNode{
+			st.push(&hTreeNode{
 				level:   "root",
 				content: "root",
-				subTree: make([]*HTreeNode, 0),
+				subTree: make([]*hTreeNode, 0),
 			})
 		}
 		fmt.Println(st.len())
@@ -221,10 +223,10 @@ func ParseHtree(str string, st *stack) *stack {
 			node = st.pop()
 		}
 		// 在根的子树中push
-		node.subTree = append(node.subTree, &HTreeNode{
+		node.subTree = append(node.subTree, &hTreeNode{
 			level:   "h1",
 			content: sstr[1:] + "AAA",
-			subTree: make([]*HTreeNode, 0),
+			subTree: make([]*hTreeNode, 0),
 		})
 		st.push(node)
 	}
@@ -245,13 +247,13 @@ func GetMeta(raw []byte) (map[string]string, error) {
 	return meta, err
 }
 
-// 将Html内容中的所有内部链接进行转换
+// ConvertLink 将Html内容中的所有内部链接进行转换
 // 0. 如果是内部链接则继续
 // 1. 如果能够在ipfs网络中找到，则替换
 // 2. 如果不能在ipfs网络中找到，则不处理
-func (render *renderer) ConvertLink(raw []byte, parent_dir string) ([]byte, error) {
+func (render *Renderer) ConvertLink(raw []byte, parentDir string) ([]byte, error) {
 	// upload files
-	_, err := mapper.WalkDirCmd(parent_dir)
+	_, err := mapper.WalkDirCmd(parentDir)
 	if err != nil {
 		return nil, err
 	}
@@ -280,10 +282,10 @@ func (render *renderer) ConvertLink(raw []byte, parent_dir string) ([]byte, erro
 // changeSrc 将img/script中的 src属性 进行替换
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
-		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-			fmt.Println("Convert: ", src, "to", ipfs_link)
+		if ipfsLink, ok := mapper.Get(parseLink(src)); ok {
+			fmt.Println("Convert: ", src, "to", ipfsLink)
 			//fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
-			s.SetAttr("src", addIPFSPrefix(ipfs_link))
+			s.SetAttr("src", addIPFSPrefix(ipfsLink))
 		}
 	}
 }
@@ -292,9 +294,9 @@ func changeSrc(i int, s *goquery.Selection) {
 func changeHref(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("href"); ok && isInternal(src) {
 		// 如果是内部链接，进行处理
-		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
+		if ipfsLink, ok := mapper.Get(parseLink(src)); ok {
 			//fmt.Println("Convert: ", src, "to",ipfs_link)
-			s.SetAttr("href", addIPFSPrefix(ipfs_link))
+			s.SetAttr("href", addIPFSPrefix(ipfsLink))
 		}
 	}
 }

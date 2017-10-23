@@ -2,13 +2,14 @@ package config
 
 import (
 	"fmt"
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
 	"os"
 	"sync"
-	"time"
+
+	"github.com/fsnotify/fsnotify"
+	"github.com/spf13/viper"
 )
 
+//Config manager
 type Config struct {
 	conf *viper.Viper
 	lock *sync.RWMutex
@@ -36,66 +37,49 @@ func NewRawConfig() *Config {
 	}
 }
 
+//Get a key return interface
 func (cf *Config) Get(key string) interface{} {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.Get(key)
 }
 
+//GetString a key return string
 func (cf *Config) GetString(key string) string {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.GetString(key)
 }
 
+//GetInt a key return int
 func (cf *Config) GetInt(key string) int {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.GetInt(key)
 }
 
+//GetInt64 a key return int64
 func (cf *Config) GetInt64(key string) int64 {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.GetInt64(key)
 }
 
+//GetFloat64 a key return Float64
 func (cf *Config) GetFloat64(key string) float64 {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.GetFloat64(key)
 }
 
+//GetBool a key return int64
 func (cf *Config) GetBool(key string) bool {
 	cf.lock.RLock()
 	defer cf.lock.RUnlock()
 	return cf.conf.GetBool(key)
 }
 
-func (cf *Config) GetDuration(key string) time.Duration {
-	cf.lock.RLock()
-	defer cf.lock.RUnlock()
-	return cf.conf.GetDuration(key)
-}
-
-func (cf *Config) GetStringMap(key string) map[string]interface{} {
-	cf.lock.RLock()
-	defer cf.lock.RUnlock()
-	return cf.conf.GetStringMap(key)
-}
-
-func (cf *Config) GetStringSlice(key string) []string {
-	cf.lock.RLock()
-	defer cf.lock.RUnlock()
-	return cf.conf.GetStringSlice(key)
-}
-
-func (cf *Config) GetBytes(key string) uint {
-	cf.lock.RLock()
-	defer cf.lock.RUnlock()
-	return cf.conf.GetSizeInBytes(key)
-}
-
+//Set key:value
 func (cf *Config) Set(key string, value interface{}) {
 	cf.lock.Lock()
 	defer cf.lock.Unlock()
@@ -124,24 +108,4 @@ func (cf *Config) MergeConfig(configPath string) (*Config, error) {
 // OnConfigChange register function to invoke when config file change.
 func (cf *Config) OnConfigChange(run func(in fsnotify.Event)) {
 	cf.conf.OnConfigChange(run)
-}
-
-func (cf *Config) Print() {
-	keys := cf.conf.AllKeys()
-	for _, key := range keys {
-		fmt.Printf("key: %s, value: %v\n", key, cf.Get(key))
-	}
-}
-
-func (cf *Config) equals(anotherConfig *Config) bool {
-	if len(cf.conf.AllKeys()) != len(anotherConfig.conf.AllKeys()) {
-		return false
-	}
-	for _, key := range anotherConfig.conf.AllKeys() {
-		if !cf.ContainsKey(key) {
-			fmt.Printf("No value for key %s found \n", key)
-			return false
-		}
-	}
-	return true
 }
