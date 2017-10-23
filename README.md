@@ -1,10 +1,8 @@
 # Papillon
 
-[![Build Status](https://travis-ci.org/gogank/papillon.svg?branch=master)](https://travis-ci.org/gogank/papillon)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gogank/papillon)](https://goreportcard.com/report/github.com/gogank/papillon)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/gogank/papillon)
 [![](https://img.shields.io/badge/docker-supported-blue.svg)](https://godoc.org/github.com/gogank/papillon)
-[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/gogank/papillon.svg)](https://libraries.io/github/gogank/papillon)
 [![GitHub stars](https://img.shields.io/github/stars/gogank/papillon.svg?style=social&label=Stars)]()
 
 A distributed static blog publish tool
