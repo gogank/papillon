@@ -1,11 +1,11 @@
 package render
 
 import (
-	"testing"
+	"fmt"
+	"github.com/gogank/papillon/mapper"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
-	"github.com/gogank/papillon/mapper"
-	"fmt"
+	"testing"
 )
 
 var TestPostPath = "../test/single.md"

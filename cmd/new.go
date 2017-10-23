@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
 	"github.com/gogank/papillon/handler"
+	"github.com/spf13/cobra"
 )
 
 func init() {

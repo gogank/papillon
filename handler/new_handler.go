@@ -1,41 +1,43 @@
 package handler
 
 import (
+	"bytes"
+	"fmt"
+	"path"
+	"strings"
+	"time"
+
 	"github.com/gogank/papillon/configuration"
 	"github.com/gogank/papillon/utils"
-	"strings"
-	"path"
-	"fmt"
-	"bytes"
-	"time"
 )
 
-func NewPost(post_name string, conf_path string) {
-	cnf := config.NewConfig(conf_path)
+//NewPost New a post by post name and config path
+func NewPost(postName string, confPath string) {
+	cnf := config.NewConfig(confPath)
 	sourceDir := cnf.GetString(utils.DIR_POSTS)
 	author := cnf.GetString(utils.COMMON_AUTHOR)
-	file_path := path.Join(sourceDir, parsePostName(post_name)+".md")
+	filePath := path.Join(sourceDir, parsePostName(postName)+".md")
 	date := time.Now().Format("2006/01/02")
-	content_tpl := `---
+	contentTpl := `---
 title: %s
 date: %s
 author: %s
 ---
 `
-	content_buf := bytes.NewBufferString("")
-	fmt.Fprintf(content_buf, content_tpl, post_name, date, author)
-	if !utils.Mkfile(file_path, content_buf.Bytes()) {
+	contentBuf := bytes.NewBufferString("")
+	fmt.Fprintf(contentBuf, contentTpl, postName, date, author)
+	if !utils.Mkfile(filePath, contentBuf.Bytes()) {
 		fmt.Println("创建文章失败!")
 	} else {
-		fmt.Println("创建文章成功：", file_path)
+		fmt.Println("创建文章成功：", filePath)
 	}
 
 }
 
-func parsePostName(post_name string) string {
-	if strings.Contains(post_name, " ") {
-		post_name = strings.Replace(post_name, " ", "_", -1)
+func parsePostName(postName string) string {
+	if strings.Contains(postName, " ") {
+		postName = strings.Replace(postName, " ", "_", -1)
 	}
 	// TODO 更多的文件名检查
-	return post_name
+	return postName
 }

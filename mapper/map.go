@@ -1,23 +1,25 @@
 package mapper
 
 import (
-	"github.com/gogank/papillon/publish"
-	"fmt"
-	"github.com/gogank/papillon/utils"
 	"encoding/hex"
-	"path/filepath"
+	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
+
+	"github.com/gogank/papillon/publish"
+	"github.com/gogank/papillon/utils"
 )
 
 var linkMap map[string]string
-var publisher *publish.PublishImpl
+var publisher *publish.Impl
 
 func init() {
 	linkMap = make(map[string]string)
-	publisher = publish.NewPublishImpl()
+	publisher = publish.NewImpl()
 }
 
+//Get a value from the mapper
 func Get(key string) (string, bool) {
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
 	if hash, ok := linkMap[key]; ok {
@@ -26,6 +28,7 @@ func Get(key string) (string, bool) {
 	return "", false
 }
 
+//Put a value into the mapper
 func Put(key string, dir string) (string, error) {
 	hash, err := publisher.AddFile(key)
 	dirPthByte := []rune(dir)
@@ -41,34 +44,7 @@ func Put(key string, dir string) (string, error) {
 	return hash, nil
 }
 
-func WalkDir(dirPth string) (hashs []string, err error) {
-	files := make([]string, 0, 30)
-	hashs = make([]string, 0, 30)
-	dirPthByte := []rune(dirPth)
-	bol := strings.EqualFold("./", string(dirPthByte[:len([]rune("./"))]))
-	if bol {
-		dirPth = string(dirPthByte[len([]rune("./")):])
-	}
-	//fmt.Println(dirPth)
-	err = filepath.Walk(dirPth, func(filename string, fi os.FileInfo, err error) error { //遍历目录
-		if err != nil { //忽略错误
-			return err
-		}
-		if fi.IsDir() { // 忽略目录
-			return nil
-		}
-		files = append(files, filename)
-		hash, err := Put(filename, dirPth)
-		hashs = append(hashs, hash)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-		return nil
-	})
-	return hashs, err
-}
-
+//WalkDirCmd walk the spific dir and put the relative dir path into mapper
 func WalkDirCmd(dirPth string) ([]string, error) {
 	files := make([]string, 0, 30)
 	dirPthByte := []rune(dirPth)

@@ -1,8 +1,8 @@
 package config
 
 import (
-	"testing"
 	"github.com/gogank/papillon/utils"
+	"testing"
 )
 
 func TestNewConfig(t *testing.T) {

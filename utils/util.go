@@ -1,22 +1,24 @@
 package utils
 
 import (
-	"os"
-	"path/filepath"
 	"fmt"
-	"path"
 	"io/ioutil"
+	"os"
+	"path"
+	"path/filepath"
 	"strings"
+
 	"github.com/gogank/papillon/utils/sha3"
 )
 
+//Exist judge the file is exist or not
 func Exist(filename string) bool {
 	path := Abs(filename)
 	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
 }
 
-// 返回绝对路径
+// get a file path's abs path
 func Abs(filename string) string {
 	path, err := filepath.Abs(filename)
 	if err != nil {
@@ -25,6 +27,7 @@ func Abs(filename string) string {
 	return path
 }
 
+//Mkdir make a dir by spicific path
 func Mkdir(dir string) bool {
 	var path string
 	if os.IsPathSeparator('\\') { //前边的判断是否是系统的分隔符
@@ -41,8 +44,9 @@ func Mkdir(dir string) bool {
 	return true
 }
 
+//Mkdir make a file by spicific path and file content
 func Mkfile(filename string, file []byte) bool {
-	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0664)
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -52,15 +56,16 @@ func Mkfile(filename string, file []byte) bool {
 		fmt.Println(err)
 		return false
 	}
-	f.Close();
+	f.Close()
 	return true
 }
 
-// 取得文件的后缀
+//Ext get file extension
 func Ext(filepath string) string {
 	return path.Ext(filepath)
 }
 
+//ListDir list dir's content
 func ListDir(dirPth string, suffix string) (files []string, err error) {
 	files = make([]string, 0, 10)
 	dir, err := ioutil.ReadDir(dirPth)
@@ -79,6 +84,7 @@ func ListDir(dirPth string, suffix string) (files []string, err error) {
 	return files, nil
 }
 
+//ReadFile get file's content
 func ReadFile(filename string) ([]byte, error) {
 	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -87,6 +93,7 @@ func ReadFile(filename string) ([]byte, error) {
 	return contents, nil
 }
 
+//ExistDir judge the dir is exist or not
 func ExistDir(dir string) bool {
 	_, err := os.Stat(dir)
 	if err == nil {
@@ -99,6 +106,7 @@ func ExistDir(dir string) bool {
 	return false
 }
 
+//RemoveDir remove dir
 func RemoveDir(dir string) error {
 	err := os.RemoveAll(dir)
 	if err != nil {
@@ -107,6 +115,7 @@ func RemoveDir(dir string) error {
 	return nil
 }
 
+//ByteHash hash by data byte
 func ByteHash(data ...[]byte) []byte {
 
 	hw := sha3.NewKeccak256()

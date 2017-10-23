@@ -1,12 +1,12 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"fmt"
-	"sync"
 	"github.com/fsnotify/fsnotify"
-	"time"
+	"github.com/spf13/viper"
 	"os"
+	"sync"
+	"time"
 )
 
 type Config struct {

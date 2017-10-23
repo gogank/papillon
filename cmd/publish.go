@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
-	"github.com/gogank/papillon/publish"
 	"time"
+
+	"github.com/gogank/papillon/publish"
+	"github.com/spf13/cobra"
 )
 
 func init() {
@@ -29,13 +30,13 @@ var publishCmd = &cobra.Command{
 		fmt.Println("|  __/| |_| | |_) | | \\__ \\ | | | | | | | (_| |")
 		fmt.Println("|_|    \\__,_|_.__/|_|_|___/_| |_|_|_| |_|\\__, |")
 		fmt.Println("                                          |___/")
-		pub := publish.NewPublishImpl()
+		pub := publish.NewImpl()
 		var flag bool
 		flag = false
 		ticker := time.NewTicker(time.Second * 1)
 		str := "=="
 		go func() {
-			for _ = range ticker.C {
+			for range ticker.C {
 				fmt.Print(str)
 				str = "=="
 				if flag == true {

@@ -1,22 +1,24 @@
 package handler
 
 import (
-	"github.com/gogank/papillon/configuration"
-	"github.com/gogank/papillon/utils"
 	"errors"
-	"github.com/gogank/papillon/render"
-	"path"
 	"fmt"
+	"math/rand"
+	"path"
+	"strconv"
 	"strings"
 	"time"
-	"strconv"
-	"math/rand"
-	"github.com/mrunalp/fileutils"
+
+	"github.com/gogank/papillon/configuration"
 	"github.com/gogank/papillon/publish"
+	"github.com/gogank/papillon/render"
+	"github.com/gogank/papillon/utils"
+	"github.com/mrunalp/fileutils"
 )
 
-func Generate(conf_path string) error {
-	cnf := config.NewConfig(conf_path)
+//Generate generate the whole source path
+func Generate(confPath string) error {
+	cnf := config.NewConfig(confPath)
 
 	sourceDir := cnf.GetString(utils.DIR_SOURCE)
 	postsDir := cnf.GetString(utils.DIR_POSTS)
@@ -25,7 +27,7 @@ func Generate(conf_path string) error {
 
 	// 1. 检查 source 文件夹是否存在
 	if !utils.ExistDir(sourceDir) {
-		return errors.New(fmt.Sprintf("source directory '%s' doesn't exist, cann't generate", sourceDir))
+		return fmt.Errorf("source directory '%s' doesn't exist, cann't generate", sourceDir)
 	}
 
 	// 2. 删除 public 文件夹
@@ -37,14 +39,14 @@ func Generate(conf_path string) error {
 
 	// 3. 创建新的 public 文件夹
 	if !utils.Mkdir(publicDir) {
-		return errors.New(fmt.Sprintf("create directory %s failed", publicDir))
+		return fmt.Errorf("create directory %s failed", publicDir)
 	}
 
 	if utils.ExistDir(postsDir) {
 
 		// 4. 创建 public/posts 文件夹
 		if !utils.Mkdir(path.Join(publicDir, "posts")) {
-			return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts")))
+			return fmt.Errorf("create directory %s failed", path.Join(publicDir, "posts"))
 		}
 
 		// 5. 遍历source/posts/ 目录中的所有的markdown文件， 转化为html文件
@@ -115,51 +117,51 @@ func Generate(conf_path string) error {
 			// 检查年份文件夹是否存在
 			if !utils.ExistDir(path.Join(publicDir, "posts", year)) {
 				if !utils.Mkdir(path.Join(publicDir, "posts", year)) {
-					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year)))
+					return fmt.Errorf("create directory %s failed", path.Join(publicDir, "posts", year))
 				}
 			}
 
 			// 检查月份文件夹是否存在
 			if !utils.ExistDir(path.Join(publicDir, "posts", year, month)) {
 				if !utils.Mkdir(path.Join(publicDir, "posts", year, month)) {
-					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year, month)))
+					return fmt.Errorf("create directory %s failed", path.Join(publicDir, "posts", year, month))
 				}
 			}
 
 			// 检查日期文件夹是否存在
 			if !utils.ExistDir(path.Join(publicDir, "posts", year, month, day)) {
 				if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day)) {
-					return errors.New(fmt.Sprintf("create directory %s failed", path.Join(publicDir, "posts", year, month, day)))
+					return fmt.Errorf("create directory %s failed", path.Join(publicDir, "posts", year, month, day))
 				}
 			}
 
 			newTitle := strings.Replace(title, " ", "_", -1)
 			if !utils.Mkdir(path.Join(publicDir, "posts", year, month, day, newTitle)) {
-				return errors.New(fmt.Sprintf("create directory %s failed",
-					path.Join(publicDir, "posts", year, month, day, newTitle)))
+				return fmt.Errorf("create directory %s failed",
+					path.Join(publicDir, "posts", year, month, day, newTitle))
 			}
 
 			// 根据文章内容创建html文件
-			newHtmlContent, err := parse.ConvertLink(htmlContent, publicDir)
+			newHTMLContent, err := parse.ConvertLink(htmlContent, publicDir)
 			if err != nil {
 				return err
 			}
 
-			if !utils.Mkfile(path.Join(publicDir, "posts", year, month, day, newTitle, "index.html"), newHtmlContent) {
-				return errors.New(fmt.Sprintf("create file %s failed",
-					path.Join(publicDir, "posts", year, month, day, newTitle, "index.html")))
+			if !utils.Mkfile(path.Join(publicDir, "posts", year, month, day, newTitle, "index.html"), newHTMLContent) {
+				return fmt.Errorf("create file %s failed",
+					path.Join(publicDir, "posts", year, month, day, newTitle, "index.html"))
 			}
 		}
 
 		// 7. 生成首页的html
-		if err := generateIndexHtml(cnf, path.Join(publicDir, "index.html")); err != nil {
+		if err := genIndexHTML(cnf, path.Join(publicDir, "index.html")); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func generateIndexHtml(cnf *config.Config, indexPath string) error {
+func genIndexHTML(cnf *config.Config, indexPath string) error {
 	parse := render.New()
 
 	themeDir := cnf.GetString(utils.DIR_THEME)
@@ -213,20 +215,20 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		return err
 	}
 
-	_, indexHtml, err := parse.DoRender(nil, indexTpl, indexCtx)
+	_, indexHTML, err := parse.DoRender(nil, indexTpl, indexCtx)
 	if err != nil {
 		return err
 	}
 
-	newIndexHtml, err := parse.ConvertLink(indexHtml, publicDir)
+	newIndexHTML, err := parse.ConvertLink(indexHTML, publicDir)
 	if err != nil {
 		return err
 	}
 
-	if !utils.Mkfile(indexPath, newIndexHtml) {
-		return errors.New(fmt.Sprintf("create file %s failed", indexPath))
+	if !utils.Mkfile(indexPath, newIndexHTML) {
+		return fmt.Errorf("create file %s failed", indexPath)
 	}
-	pub := publish.NewPublishImpl()
+	pub := publish.NewImpl()
 	indexHash, err := pub.AddFile(indexPath)
 
 	if err != nil {

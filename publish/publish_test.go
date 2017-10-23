@@ -2,16 +2,17 @@ package publish
 
 import (
 	"testing"
+
 	"github.com/stretchr/testify/assert"
 )
 
-var pub *PublishImpl
+var pub *Impl
 
 func init() {
-	pub = NewPublishImpl()
+	pub = NewImpl()
 }
 
-func TestPublishImpl_AddFile(t *testing.T) {
+func TestImpl_AddFile(t *testing.T) {
 	hash, err := pub.AddFile("./test/gogank.jpg")
 	if err != nil {
 		t.Error(err)
@@ -20,7 +21,7 @@ func TestPublishImpl_AddFile(t *testing.T) {
 	t.Log(hash)
 }
 
-func TestPublishImpl_AddDir(t *testing.T) {
+func TestImpl_AddDir(t *testing.T) {
 	hash, err := pub.AddDir("./test")
 	if err != nil {
 		t.Error(err)
@@ -29,7 +30,7 @@ func TestPublishImpl_AddDir(t *testing.T) {
 	t.Log(hash)
 }
 
-func TestPublishImpl_AddFile2(t *testing.T) {
+func TestImpl_AddFile2(t *testing.T) {
 	res, err := pub.AddDirCmd("./test")
 	if err != nil {
 		t.Error(err)
@@ -38,7 +39,7 @@ func TestPublishImpl_AddFile2(t *testing.T) {
 	t.Log(res)
 }
 
-func TestPublishImpl_PublishCmd(t *testing.T) {
+func TestImpl_PublishCmd(t *testing.T) {
 	peer, err := pub.PublishCmd()
 	if err != nil {
 		t.Error(err)
@@ -47,7 +48,7 @@ func TestPublishImpl_PublishCmd(t *testing.T) {
 	t.Log(peer)
 }
 
-func TestPublishImpl_NamePublish(t *testing.T) {
+func TestImpl_NamePublish(t *testing.T) {
 	id, err := pub.LocalID()
 	assert.Nil(t, err)
 	t.Log(id)

@@ -1,33 +1,38 @@
 package publish
 
 import (
-	api"github.com/mikesun/go-ipfs-api"
-	"github.com/gogank/papillon/utils"
-	"strings"
 	"os/exec"
-	"github.com/pkg/errors"
+	"strings"
+
 	"github.com/gogank/papillon/configuration"
+	"github.com/gogank/papillon/utils"
+	api "github.com/mikesun/go-ipfs-api"
+	"github.com/pkg/errors"
 )
 
+//Publish interface supply the core ipfs upload functions
 type Publish interface {
 	AddFile(filename string) (string, error)
 	AddDir(dir string) (string, error)
 }
 
-type PublishImpl struct {
+//Impl implements the Publish interface
+type Impl struct {
 	shell *api.Shell
 	cnf   *config.Config
 }
 
-func NewPublishImpl() *PublishImpl {
+//NewImpl return a publish instance
+func NewImpl() *Impl {
 	con := config.NewConfig("./config.toml")
-	return &PublishImpl{
+	return &Impl{
 		shell: api.NewShell(con.GetString(utils.COMMON_URL)),
 		cnf:   con,
 	}
 }
 
-func (publish *PublishImpl) AddFile(filename string) (string, error) {
+//AddFile add a file into ipfs network
+func (publish *Impl) AddFile(filename string) (string, error) {
 	contents, err := utils.ReadFile(filename)
 	if err != nil {
 		return "", err
@@ -37,12 +42,14 @@ func (publish *PublishImpl) AddFile(filename string) (string, error) {
 	return hash, err
 }
 
-func (publish *PublishImpl) AddDir(dir string) (string, error) {
+//AddDir add a Dir into ipfs network
+func (publish *Impl) AddDir(dir string) (string, error) {
 	hash, err := publish.shell.AddDir(dir)
 	return hash, err
 }
 
-func (publish *PublishImpl) AddDirCmd(dir string) (string, error) {
+//AddDirCmd add a Dir into ipfs network by native shell command
+func (publish *Impl) AddDirCmd(dir string) (string, error) {
 	res, err := exec.Command("ipfs", "add", "-r", dir).Output()
 	if err != nil {
 		return "", err
@@ -53,11 +60,13 @@ func (publish *PublishImpl) AddDirCmd(dir string) (string, error) {
 	return strs[len(strs)-2], nil
 }
 
-func (publish *PublishImpl) NamePublish(name, hash string) (error) {
+//NamePublish same as `ipfs name publish <hash>`
+func (publish *Impl) NamePublish(name, hash string) error {
 	return publish.shell.Publish(name, hash)
 }
 
-func (publish *PublishImpl) LocalID() (string, error) {
+//LocalID get local peerID
+func (publish *Impl) LocalID() (string, error) {
 	id, err := publish.shell.ID()
 	if err != nil {
 		return "", err
@@ -65,7 +74,8 @@ func (publish *PublishImpl) LocalID() (string, error) {
 	return id.ID, nil
 }
 
-func (publish *PublishImpl) PublishCmd() (string, error) {
+//PublishCmd use native command shell to `ipfs name publish`
+func (publish *Impl) PublishCmd() (string, error) {
 	dir := publish.cnf.GetString(utils.DIR_PUBLIC) + "/index.html"
 	hash, err := publish.AddDirCmd(dir)
 	if err != nil {
@@ -78,7 +88,7 @@ func (publish *PublishImpl) PublishCmd() (string, error) {
 	str := string(res)
 	strs := strings.Split(str, " ")
 	if len(strs) != 4 {
-		return "", errors.New("Publish Failed,please check the ipfs server.")
+		return "", errors.New("publish Failed,please check the ipfs server")
 	}
 	peer := strs[2]
 	length := len(peer)

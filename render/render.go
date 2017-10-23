@@ -1,17 +1,17 @@
 package render
 
 import (
-	"strings"
 	"bufio"
-	"io"
-	"github.com/aymerick/raymond"
-	"gopkg.in/russross/blackfriday.v2"
-	"github.com/PuerkitoBio/goquery"
 	"errors"
 	"fmt"
-	"regexp"
+	"github.com/PuerkitoBio/goquery"
+	"github.com/aymerick/raymond"
 	"github.com/gogank/papillon/mapper"
+	"gopkg.in/russross/blackfriday.v2"
+	"io"
 	"net/url"
+	"regexp"
+	"strings"
 )
 
 type renderer struct {
@@ -79,7 +79,7 @@ func readPostConfig(raw []byte) (map[string]string, []byte, error) {
 			return nil, nil, err
 		}
 		// 开始读取第一行
-		if !str_flag && ! end_flag {
+		if !str_flag && !end_flag {
 			line_str := strings.TrimSpace(string(line))
 			// 防止没有 `---`
 			if !strings.HasPrefix(line_str, "-") {
@@ -134,7 +134,7 @@ func (st *stack) pop() *HTreeNode {
 		return nil
 	}
 	tmpn := st.s[len(st.s)-1]
-	st.s = st.s[0:len(st.s)-1]
+	st.s = st.s[0 : len(st.s)-1]
 	return tmpn
 }
 func (st *stack) empty() bool {
@@ -229,7 +229,7 @@ func ParseHtree(str string, st *stack) *stack {
 		st.push(node)
 	}
 
-	return st;
+	return st
 }
 
 //GetMeta 取得文章元信息
