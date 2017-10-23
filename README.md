@@ -1,5 +1,5 @@
 # Papillon
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/gogank/papillon?ver=0.1)](https://goreportcard.com/report/github.com/gogank/papillon)
 [![GitHub stars](https://img.shields.io/github/stars/gogank/papillon.svg?style=social&label=Stars)]()
 
 A distributed static blog publish tool
