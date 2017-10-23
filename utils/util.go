@@ -12,14 +12,14 @@ import (
 
 func Exist(filename string) bool {
 	path := Abs(filename)
-	_,err := os.Stat(path)
+	_, err := os.Stat(path)
 	return err == nil || os.IsExist(err)
 }
 
 // 返回绝对路径
 func Abs(filename string) string {
-	path,err := filepath.Abs(filename)
-	if err != nil{
+	path, err := filepath.Abs(filename)
+	if err != nil {
 		return filename
 	}
 	return path
@@ -27,13 +27,13 @@ func Abs(filename string) string {
 
 func Mkdir(dir string) bool {
 	var path string
-	if os.IsPathSeparator('\\') {  //前边的判断是否是系统的分隔符
+	if os.IsPathSeparator('\\') { //前边的判断是否是系统的分隔符
 		path = "\\"
 	} else {
 		path = "/"
 	}
-	pwd, _ := os.Getwd()  //当前的目录
-	err := os.Mkdir(pwd+path+dir, os.ModePerm)  //在当前目录下生成目录
+	pwd, _ := os.Getwd()                       //当前的目录
+	err := os.Mkdir(pwd+path+dir, os.ModePerm) //在当前目录下生成目录
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -41,13 +41,13 @@ func Mkdir(dir string) bool {
 	return true
 }
 
-func Mkfile(filename string,file []byte) bool {
+func Mkfile(filename string, file []byte) bool {
 	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
-	_,err = f.Write(file)
+	_, err = f.Write(file)
 	if err != nil {
 		fmt.Println(err)
 		return false
@@ -57,7 +57,7 @@ func Mkfile(filename string,file []byte) bool {
 }
 
 // 取得文件的后缀
-func Ext(filepath string) string{
+func Ext(filepath string) string {
 	return path.Ext(filepath)
 }
 
@@ -79,12 +79,12 @@ func ListDir(dirPth string, suffix string) (files []string, err error) {
 	return files, nil
 }
 
-func ReadFile(filename string) ([]byte,error) {
-	contents,err := ioutil.ReadFile(filename)
+func ReadFile(filename string) ([]byte, error) {
+	contents, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
-	return contents,nil
+	return contents, nil
 }
 
 func ExistDir(dir string) bool {

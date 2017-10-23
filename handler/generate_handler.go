@@ -15,11 +15,11 @@ import (
 	"github.com/gogank/papillon/publish"
 )
 
-func Generate(conf_path string) error{
+func Generate(conf_path string) error {
 	cnf := config.NewConfig(conf_path)
 
 	sourceDir := cnf.GetString(utils.DIR_SOURCE)
-	postsDir  := cnf.GetString(utils.DIR_POSTS)
+	postsDir := cnf.GetString(utils.DIR_POSTS)
 	publicDir := cnf.GetString(utils.DIR_PUBLIC)
 	themeDir := cnf.GetString(utils.DIR_THEME)
 
@@ -90,14 +90,14 @@ func Generate(conf_path string) error{
 			year := strconv.Itoa(now.Year())
 			month := strconv.Itoa(int(now.Month()))
 			day := strconv.Itoa(now.Day())
-			title := "Untitled"+ strconv.Itoa(rand.Int())
+			title := "Untitled" + strconv.Itoa(rand.Int())
 
 			// 根据文章信息创建文件夹
 			for k, v := range fileInfo {
 
 				// 确定日期文件夹目录
 				if k == "date" {
-					ds := strings.Split(v.(string),"/")
+					ds := strings.Split(v.(string), "/")
 
 					if len(ds) == 3 {
 						year = ds[0]
@@ -140,14 +140,14 @@ func Generate(conf_path string) error{
 			}
 
 			// 根据文章内容创建html文件
-			newHtmlContent, err := parse.ConvertLink(htmlContent,publicDir)
+			newHtmlContent, err := parse.ConvertLink(htmlContent, publicDir)
 			if err != nil {
 				return err
 			}
 
-			if !utils.Mkfile(path.Join(publicDir,"posts", year, month, day, newTitle, "index.html"), newHtmlContent) {
+			if !utils.Mkfile(path.Join(publicDir, "posts", year, month, day, newTitle, "index.html"), newHtmlContent) {
 				return errors.New(fmt.Sprintf("create file %s failed",
-					path.Join(publicDir,"posts", year, month, day, newTitle, "index.html")))
+					path.Join(publicDir, "posts", year, month, day, newTitle, "index.html")))
 			}
 		}
 
@@ -202,7 +202,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 			indexCtx["articles"].([]map[string]interface{})[i]["abstract"] = meta["abstract"]
 
 			articleURL := path.Join("posts", dateSlice[0], dateSlice[1], dateSlice[2], title, "index.html")
-			indexCtx["articles"].([]map[string]interface{})[i]["url"] = "/"+articleURL
+			indexCtx["articles"].([]map[string]interface{})[i]["url"] = "/" + articleURL
 		} else {
 			return err
 		}
@@ -218,7 +218,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		return err
 	}
 
-	newIndexHtml, err := parse.ConvertLink(indexHtml,publicDir)
+	newIndexHtml, err := parse.ConvertLink(indexHtml, publicDir)
 	if err != nil {
 		return err
 	}
@@ -233,7 +233,7 @@ func generateIndexHtml(cnf *config.Config, indexPath string) error {
 		return err
 	}
 
-	fmt.Println("convert index.html to https://ipfs.io/ipfs/"+ indexHash)
+	fmt.Println("convert index.html to https://ipfs.io/ipfs/" + indexHash)
 
 	return nil
 }

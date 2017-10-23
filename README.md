@@ -1,5 +1,16 @@
 # Papillon
+
+[![Build Status](https://travis-ci.org/gogank/papillon.svg?branch=master)](https://travis-ci.org/gogank/papillon)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gogank/papillon)](https://goreportcard.com/report/github.com/gogank/papillon)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/gogank/papillon)
+[![](https://img.shields.io/badge/docker-supported-blue.svg)](https://godoc.org/github.com/gogank/papillon)
+[![Libraries.io for GitHub](https://img.shields.io/librariesio/github/gogank/papillon.svg)](https://libraries.io/github/gogank/papillon)
+[![GitHub stars](https://img.shields.io/github/stars/gogank/papillon.svg?style=social&label=Stars)]()
+
+A distributed static blog publish tool
+
 IPFS网络上的静态博客发布系统
+
 
 ## 准备工作 
 [安装IPFS节点](https://ipfs.io/docs/install/)

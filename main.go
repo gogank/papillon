@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"github.com/gogank/papillon/cmd"
+	"os"
 )
 
 func main() {

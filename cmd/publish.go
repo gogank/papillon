@@ -17,7 +17,7 @@ var publishCmd = &cobra.Command{
 	Short: "Publish a static blog website to ipfs.",
 	Long:  `Publish a new static blog website to ipfs`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 0{
+		if len(args) != 0 {
 			fmt.Println("Errors: unnecessary args in cmd!")
 			fmt.Println("Example:")
 			fmt.Println("papi pub")
@@ -27,8 +27,8 @@ var publishCmd = &cobra.Command{
 		fmt.Println("|  _ \\ _   _| |__ | (_)___| |__ (_)_ __   __ _")
 		fmt.Println("| |_) | | | | '_ \\| | / __| '_ \\| | '_ \\ / _` |")
 		fmt.Println("|  __/| |_| | |_) | | \\__ \\ | | | | | | | (_| |")
-	        fmt.Println("|_|    \\__,_|_.__/|_|_|___/_| |_|_|_| |_|\\__, |")
-	        fmt.Println("                                          |___/")
+		fmt.Println("|_|    \\__,_|_.__/|_|_|___/_| |_|_|_| |_|\\__, |")
+		fmt.Println("                                          |___/")
 		pub := publish.NewPublishImpl()
 		var flag bool
 		flag = false
@@ -43,7 +43,7 @@ var publishCmd = &cobra.Command{
 				}
 			}
 		}()
-		hash,err := pub.PublishCmd()
+		hash, err := pub.PublishCmd()
 		flag = true
 		fmt.Print(">>100%")
 		fmt.Println()
@@ -51,6 +51,6 @@ var publishCmd = &cobra.Command{
 			fmt.Println("Error: publish failed", err.Error())
 			return
 		}
-		fmt.Println("The url is https://ipfs.io/ipns/"+hash)
+		fmt.Println("The url is https://ipfs.io/ipns/" + hash)
 	},
 }

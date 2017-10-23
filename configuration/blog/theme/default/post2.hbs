@@ -2,22 +2,23 @@
 <html class="theme-next muse use-motion">
 <head>
     <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-    <meta http-equiv="Cache-Control" content="no-transform" />
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
-    <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-    <meta name="keywords" content="Hexo, NexT" />
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1" />
+    <meta http-equiv="Cache-Control" content="no-transform"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"
+          rel="stylesheet" type="text/css">
+    <link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css"/>
+    <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css"/>
+    <meta name="keywords" content="Hexo, NexT"/>
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.0.1"/>
 
     <script type="text/javascript" id="hexo.configuration">
         var NexT = window.NexT || {};
         var CONFIG = {
             scheme: 'Muse',
-            sidebar: {"position":"left","display":"post"},
+            sidebar: {"position": "left", "display": "post"},
             fancybox: true,
             motion: true,
             duoshuo: {
@@ -33,17 +34,18 @@
 <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-        <div class="header-inner"><div class="site-meta ">
-            <div class="custom-logo-site-title">
-                <!--<a href="/" class="brand" rel="start">-->
-                <a href="javascript:void(0);" class="brand" rel="start" id="jumpToIndex">
-                    <span class="logo-line-before"><i></i></span>
-                    <span class="site-title">{{blogTitle}}</span>
-                    <span class="logo-line-after"><i></i></span>
-                </a>
+        <div class="header-inner">
+            <div class="site-meta ">
+                <div class="custom-logo-site-title">
+                    <!--<a href="/" class="brand" rel="start">-->
+                    <a href="javascript:void(0);" class="brand" rel="start" id="jumpToIndex">
+                        <span class="logo-line-before"><i></i></span>
+                        <span class="site-title">{{blogTitle}}</span>
+                        <span class="logo-line-after"><i></i></span>
+                    </a>
+                </div>
+                <p class="site-subtitle">{{blogDesc}}</p>
             </div>
-            <p class="site-subtitle">{{blogDesc}}</p>
-        </div>
 
             <div class="site-nav-toggle">
                 <button>
@@ -59,7 +61,7 @@
                     {{#each blogNavs}}
                         <li class="menu-item menu-item-home">
                             <a href="{{url}}" rel="section">
-                                <i class="menu-item-icon fa fa-fw {{icon}}"></i> <br />
+                                <i class="menu-item-icon fa fa-fw {{icon}}"></i> <br/>
                                 {{name}}
                             </a>
                         </li>
@@ -85,12 +87,13 @@
                                             <i class="fa fa-calendar-o"></i>
                                         </span>
                                         <span class="post-meta-item-text">发表于</span>
-                                        <time itemprop="dateCreated" datetime="2016-08-05T18:37:04+08:00" content="{{date}}">
-                                              {{date}}
+                                        <time itemprop="dateCreated" datetime="2016-08-05T18:37:04+08:00"
+                                              content="{{date}}">
+                                            {{date}}
                                         </time>
                                     </span>
                                     {{#if cate}}
-                                        <span class="post-category" >
+                                        <span class="post-category">
                                           &nbsp; | &nbsp;
                                           <span class="post-meta-item-icon">
                                             <i class="fa fa-folder-o"></i>
@@ -143,7 +146,7 @@
                 <div class="sidebar-inner">
                     <ul class="sidebar-nav motion-element">
                         <!--<li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >-->
-                            <!--文章目录-->
+                        <!--文章目录-->
                         <!--</li>-->
                         <li class="sidebar-nav-overview" data-target="site-overview">
                             站点概览
@@ -151,10 +154,11 @@
                     </ul>
 
                     <section class="site-overview sidebar-panel ">
-                        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                        <div class="site-author motion-element" itemprop="author" itemscope
+                             itemtype="http://schema.org/Person">
                             <img class="site-author-image" itemprop="image"
                                  src="/images/avatar.jpg"
-                                 alt="{{blogAuthor}}" />
+                                 alt="{{blogAuthor}}"/>
                             <p class="site-author-name" itemprop="name">{{blogAuthor}}</p>
                             <p class="site-description motion-element" itemprop="description">{{blogDesc}}</p>
                         </div>
@@ -177,24 +181,24 @@
                     </section>
 
                     <!--<section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">-->
-                        <!--<div class="post-toc">-->
-                            <!--<div class="post-toc-content">-->
-                                <!--<ol class="nav">-->
-                                    <!--<li class="nav-item nav-level-2">-->
-                                        <!--<a class="nav-link" href="#什么是Docker？">-->
-                                            <!--<span class="nav-number">1.</span>-->
-                                            <!--<span class="nav-text">什么是Docker？</span>-->
-                                        <!--</a>-->
-                                    <!--</li>-->
-                                    <!--<li class="nav-item nav-level-2">-->
-                                        <!--<a class="nav-link" href="#Docker、VM、LXC三者关系-区别">-->
-                                            <!--<span class="nav-number">2.</span>-->
-                                            <!--<span class="nav-text">Docker、VM、LXC三者关系/区别?</span>-->
-                                        <!--</a>-->
-                                    <!--</li>-->
-                                <!--</ol>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                    <!--<div class="post-toc">-->
+                    <!--<div class="post-toc-content">-->
+                    <!--<ol class="nav">-->
+                    <!--<li class="nav-item nav-level-2">-->
+                    <!--<a class="nav-link" href="#什么是Docker？">-->
+                    <!--<span class="nav-number">1.</span>-->
+                    <!--<span class="nav-text">什么是Docker？</span>-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item nav-level-2">-->
+                    <!--<a class="nav-link" href="#Docker、VM、LXC三者关系-区别">-->
+                    <!--<span class="nav-number">2.</span>-->
+                    <!--<span class="nav-text">Docker、VM、LXC三者关系/区别?</span>-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <!--</ol>-->
+                    <!--</div>-->
+                    <!--</div>-->
                     <!--</section>-->
                 </div>
             </aside>
@@ -203,7 +207,7 @@
 
     <footer id="footer" class="footer">
         <div class="footer-inner">
-            <div class="copyright" >
+            <div class="copyright">
                 &copy;
                 <span itemprop="copyrightYear">2017</span>
                 <span class="with-love">
@@ -248,8 +252,8 @@
 <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
 <script>AV.initialize("m0IfQzPYYxaABrFqSCl9CoGt-gzGzoHsz", "kkVC4T7rhevEl2pYUx4wkFfw");</script>
 <script type="text/javascript">
-    $(function() {
-        $("#jumpToIndex").click(function() {
+    $(function () {
+        $("#jumpToIndex").click(function () {
             window.history.back(-1);
         })
     });

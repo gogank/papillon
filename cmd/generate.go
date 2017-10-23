@@ -16,7 +16,7 @@ var generateCmd = &cobra.Command{
 	Short: "Genrate a static blog website.",
 	Long:  `Genrate the whole static blog website.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) != 0{
+		if len(args) != 0 {
 			fmt.Println("Errors:unnecessary args in cmd!")
 			fmt.Println("Example:")
 			fmt.Println("papi gen")

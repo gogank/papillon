@@ -13,39 +13,39 @@ import (
 var linkMap map[string]string
 var publisher *publish.PublishImpl
 
-func init(){
+func init() {
 	linkMap = make(map[string]string)
 	publisher = publish.NewPublishImpl()
 }
 
-func Get(key string) (string,bool) {
+func Get(key string) (string, bool) {
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
-	if hash,ok := linkMap[key];ok {
-		return hash,true
+	if hash, ok := linkMap[key]; ok {
+		return hash, true
 	}
-	return "",false
+	return "", false
 }
 
-func Put(key string,dir string) (string,error) {
-	hash,err := publisher.AddFile(key)
+func Put(key string, dir string) (string, error) {
+	hash, err := publisher.AddFile(key)
 	dirPthByte := []rune(dir)
 	lenDir := len(dirPthByte)
 	filenameByte := []rune(key)
 	key = string(filenameByte[lenDir:])
 	fmt.Println("put: ", key)
 	key = hex.EncodeToString(utils.ByteHash([]byte(key)))
-	if err!= nil {
-		return "",err
+	if err != nil {
+		return "", err
 	}
 	linkMap[key] = hash
-	return hash,nil
+	return hash, nil
 }
 
 func WalkDir(dirPth string) (hashs []string, err error) {
 	files := make([]string, 0, 30)
 	hashs = make([]string, 0, 30)
 	dirPthByte := []rune(dirPth)
-	bol := strings.EqualFold("./",string(dirPthByte[:len([]rune("./"))]))
+	bol := strings.EqualFold("./", string(dirPthByte[:len([]rune("./"))]))
 	if bol {
 		dirPth = string(dirPthByte[len([]rune("./")):])
 	}
@@ -58,9 +58,9 @@ func WalkDir(dirPth string) (hashs []string, err error) {
 			return nil
 		}
 		files = append(files, filename)
-		hash,err := Put(filename,dirPth)
-		hashs = append(hashs,hash)
-		if err != nil{
+		hash, err := Put(filename, dirPth)
+		hashs = append(hashs, hash)
+		if err != nil {
 			fmt.Println(err)
 			return err
 		}
@@ -72,13 +72,13 @@ func WalkDir(dirPth string) (hashs []string, err error) {
 func WalkDirCmd(dirPth string) ([]string, error) {
 	files := make([]string, 0, 30)
 	dirPthByte := []rune(dirPth)
-	bol := strings.EqualFold("./",string(dirPthByte[:len([]rune("./"))]))
+	bol := strings.EqualFold("./", string(dirPthByte[:len([]rune("./"))]))
 	if bol {
 		dirPth = string(dirPthByte[len([]rune("./")):])
 	}
-	rootHash,err := publisher.AddDir(dirPth)
-	if err != nil{
-		return nil,err
+	rootHash, err := publisher.AddDir(dirPth)
+	if err != nil {
+		return nil, err
 	}
 	rootkey := hex.EncodeToString(utils.ByteHash([]byte("/")))
 	linkMap[rootkey] = rootHash
@@ -95,10 +95,10 @@ func WalkDirCmd(dirPth string) ([]string, error) {
 		filenameByte := []rune(filename)
 
 		key := string(filenameByte[len(dirPthByte):])
-		value := rootHash+string(filenameByte[len(dirPthByte):])
+		value := rootHash + string(filenameByte[len(dirPthByte):])
 
 		key = hex.EncodeToString(utils.ByteHash([]byte(key)))
-		if err!= nil {
+		if err != nil {
 			return err
 		}
 		linkMap[key] = value

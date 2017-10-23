@@ -130,7 +130,7 @@ func (st *stack) push(node *HTreeNode) {
 }
 
 func (st *stack) pop() *HTreeNode {
-	if len(st.s) == 0{
+	if len(st.s) == 0 {
 		return nil
 	}
 	tmpn := st.s[len(st.s)-1]
@@ -145,13 +145,13 @@ func (st *stack) len() int {
 	return len(st.s)
 }
 
-func newStack() *stack{
+func newStack() *stack {
 	return &stack{
-		s : make([]*HTreeNode,0),
+		s: make([]*HTreeNode, 0),
 	}
 }
 
-func ParseHtree(str string, st *stack) *stack{
+func ParseHtree(str string, st *stack) *stack {
 	sstr := strings.TrimSpace(str)
 	// h1
 	if strings.HasPrefix(sstr, "###") {
@@ -204,7 +204,7 @@ func ParseHtree(str string, st *stack) *stack{
 		st.push(node)
 
 	} else if strings.HasPrefix(sstr, "#") {
-		if st == nil{
+		if st == nil {
 			st = newStack()
 		}
 		if st.empty() {
@@ -237,9 +237,9 @@ func ParseHtree(str string, st *stack) *stack{
 func GetMeta(raw []byte) (map[string]string, error) {
 	meta, content, err := readPostConfig(raw)
 	if len(content) < 320 {
-		meta["abstract"]= string(blackfriday.Run(content))
+		meta["abstract"] = string(blackfriday.Run(content))
 	} else {
-		meta["abstract"]= string(blackfriday.Run(content[:302]))
+		meta["abstract"] = string(blackfriday.Run(content[:302]))
 	}
 
 	return meta, err
@@ -281,7 +281,7 @@ func (render *renderer) ConvertLink(raw []byte, parent_dir string) ([]byte, erro
 func changeSrc(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("src"); ok && isInternal(src) {
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-			fmt.Println("Convert: ", src, "to",ipfs_link)
+			fmt.Println("Convert: ", src, "to", ipfs_link)
 			//fmt.Println("convert ", parseLink(src), " to ", ipfs_link)
 			s.SetAttr("src", addIPFSPrefix(ipfs_link))
 		}
@@ -293,7 +293,7 @@ func changeHref(i int, s *goquery.Selection) {
 	if src, ok := s.Attr("href"); ok && isInternal(src) {
 		// 如果是内部链接，进行处理
 		if ipfs_link, ok := mapper.Get(parseLink(src)); ok {
-		//fmt.Println("Convert: ", src, "to",ipfs_link)
+			//fmt.Println("Convert: ", src, "to",ipfs_link)
 			s.SetAttr("href", addIPFSPrefix(ipfs_link))
 		}
 	}
