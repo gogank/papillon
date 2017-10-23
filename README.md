@@ -3,29 +3,27 @@
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/gogank/papillon)
 [![GitHub stars](https://img.shields.io/github/stars/gogank/papillon.svg?style=social&label=Stars)]()
 
-A distributed static blog publish tool
-
-IPFS网络上的静态博客发布系统
+A distributed static blog publish tool on IPFS
 
 
-## 准备工作 
-[安装IPFS节点](https://ipfs.io/docs/install/)
+## Prepare 
+[install ipfs](https://ipfs.io/docs/install/)
 
-### 启动ipfs节点
-**Note: alpha 版本需要本地启一个IPFS节点**
+### start up ipfs node
+**Note: alpha version need a local IPFS node**
 
 ```bash
-# 第一次运行需要执行
+# first run ipfs
 ipfs init
 
-# 第一次运行需要执行
+# start ipfs daemon
 ipfs daemon
 
 ```
 
-## Alpha 试用
+## Alpha Test
 
-**Note: Alpha 版本 请直接使用本说明进行试用**
+**Note: Alpha version please use those command**
 
 ```bash
 go get -u github.com/gogank/papillon
@@ -36,47 +34,47 @@ make
 
 cd $GOPATH/src/github.com/gogank/papillon/build/blog
 
-# 生成新文章
+# generate new post
 ./papi new mypost
 
-# 编辑它
+# edit it
 vim $GOPATH/src/github.com/gogank/papillon/build/blog/source/posts/mypost.md
 
-# 生成静态资源
+# generate whole website
 ./papi gen 
 
-# 发布到IPFS网络上，取得一个固定链接 
+# publish IPFS, and get your blog URL 
 ./papi pub
 ```
 
 
-Note: 下面的说明还无法使用(2017/10/22)
-## 安装 Papillon
+## install Papillon
+Note: beta version command
 
 ```bash
 go get -u github.com/gogank/papillon
 cd $GOPATH/src/github.com/gogank/papillon && go build -o $GOPATH/bin/papi
 ```
 
-## 初始化(todo)
+## init (todo)
 
 ```bash
 cd blog_dir
 papi init 
 ```
 
-## 新建文章
+## new post
 ```bash
 papi new my_post_name 
 ```
 
-## 生成文章
+## genreate blog files
 
 ```bash
 papi gen
 ```
 
-## 发布网站
+## publish your blog onto IPFS
 ```bash
 papi pub 
 ```
