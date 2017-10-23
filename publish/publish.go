@@ -26,7 +26,7 @@ type Impl struct {
 func NewImpl() *Impl {
 	con := config.NewConfig("./config.toml")
 	return &Impl{
-		shell: api.NewShell(con.GetString(utils.COMMON_URL)),
+		shell: api.NewShell(con.GetString(utils.CommonURL)),
 		cnf:   con,
 	}
 }
@@ -76,7 +76,7 @@ func (publish *Impl) LocalID() (string, error) {
 
 //PublishCmd use native command shell to `ipfs name publish`
 func (publish *Impl) PublishCmd() (string, error) {
-	dir := publish.cnf.GetString(utils.DIR_PUBLIC) + "/index.html"
+	dir := publish.cnf.GetString(utils.DirPublic) + "/index.html"
 	hash, err := publish.AddDirCmd(dir)
 	if err != nil {
 		return "", err

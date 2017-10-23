@@ -19,10 +19,10 @@ import (
 func Generate(confPath string) error {
 	cnf := config.NewConfig(confPath)
 
-	sourceDir := cnf.GetString(utils.DIR_SOURCE)
-	postsDir := cnf.GetString(utils.DIR_POSTS)
-	publicDir := cnf.GetString(utils.DIR_PUBLIC)
-	themeDir := cnf.GetString(utils.DIR_THEME)
+	sourceDir := cnf.GetString(utils.DirSource)
+	postsDir := cnf.GetString(utils.DirPosts)
+	publicDir := cnf.GetString(utils.DirPublic)
+	themeDir := cnf.GetString(utils.DirTheme)
 
 	// 1. 检查 source 文件夹是否存在
 	if !utils.ExistDir(sourceDir) {
@@ -77,9 +77,9 @@ func Generate(confPath string) error {
 			// 调用markdown－>html方法, 得到文章信息、文章内容
 			//fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, nil)
 			postCtx := make(map[string]interface{})
-			postCtx["blogTitle"] = cnf.GetString(utils.COMMON_TITLE)
-			postCtx["blogDesc"] = cnf.GetString(utils.COMMON_DESC)
-			postCtx["blogAuthor"] = cnf.GetString(utils.COMMON_AUTHOR)
+			postCtx["blogTitle"] = cnf.GetString(utils.CommonTitle)
+			postCtx["blogDesc"] = cnf.GetString(utils.CommonDesc)
+			postCtx["blogAuthor"] = cnf.GetString(utils.CommonAuthor)
 			postCtx["articlesCount"] = strconv.Itoa(len(files))
 
 			fileInfo, htmlContent, err := parse.DoRender(mdContent, postsTpl, postCtx)
@@ -163,16 +163,16 @@ func Generate(confPath string) error {
 func genIndexHTML(cnf *config.Config, indexPath string) error {
 	parse := render.New()
 
-	themeDir := cnf.GetString(utils.DIR_THEME)
-	postsDir := cnf.GetString(utils.DIR_POSTS)
-	publicDir := cnf.GetString(utils.DIR_PUBLIC)
+	themeDir := cnf.GetString(utils.DirTheme)
+	postsDir := cnf.GetString(utils.DirPosts)
+	publicDir := cnf.GetString(utils.DirPublic)
 
 	indexCtx := make(map[string]interface{})
 
 	// 首页的基本信息
-	indexCtx["title"] = cnf.GetString(utils.COMMON_TITLE)
-	indexCtx["description"] = cnf.GetString(utils.COMMON_DESC)
-	indexCtx["author"] = cnf.GetString(utils.COMMON_AUTHOR)
+	indexCtx["title"] = cnf.GetString(utils.CommonTitle)
+	indexCtx["description"] = cnf.GetString(utils.CommonDesc)
+	indexCtx["author"] = cnf.GetString(utils.CommonAuthor)
 
 	// 首页的文章信息
 	files, err := utils.ListDir(postsDir, "md")

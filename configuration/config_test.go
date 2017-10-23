@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/gogank/papillon/utils"
 	"testing"
+
+	"github.com/gogank/papillon/utils"
 )
 
 func TestNewConfig(t *testing.T) {
@@ -10,5 +11,5 @@ func TestNewConfig(t *testing.T) {
 
 	config := NewConfig(path)
 
-	t.Logf(config.GetString(utils.DIR_PUBLIC))
+	t.Logf(config.GetString(utils.DirPublic))
 }

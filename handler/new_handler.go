@@ -14,8 +14,8 @@ import (
 //NewPost New a post by post name and config path
 func NewPost(postName string, confPath string) {
 	cnf := config.NewConfig(confPath)
-	sourceDir := cnf.GetString(utils.DIR_POSTS)
-	author := cnf.GetString(utils.COMMON_AUTHOR)
+	sourceDir := cnf.GetString(utils.DirPosts)
+	author := cnf.GetString(utils.CommonAuthor)
 	filePath := path.Join(sourceDir, parsePostName(postName)+".md")
 	date := time.Now().Format("2006/01/02")
 	contentTpl := `---
